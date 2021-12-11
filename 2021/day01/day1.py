@@ -1,7 +1,7 @@
 # part 1
 # https://adventofcode.com/2021/day/1
 
-with open("2021/day1/data.txt") as input_fh:
+with open("2021/day01/data.txt") as input_fh:
     data = input_fh.read().splitlines()
 
 data = [int(item) for item in data]

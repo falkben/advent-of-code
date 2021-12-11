@@ -22,7 +22,7 @@ input = """\
 22 11 13  6  5
  2  0 12  3  7"""
 
-with open("2021/day4/data.txt") as fh:
+with open("2021/day04/data.txt") as fh:
     input = fh.read()
 
 board_data_list = []
