@@ -16,7 +16,7 @@ input = """\
 00010
 01010"""
 
-with open("2021/day3/data.txt") as fh:
+with open("2021/day03/data.txt") as fh:
     input = fh.read()
 
 

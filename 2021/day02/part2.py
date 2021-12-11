@@ -8,7 +8,7 @@ forward 2"""
 
 # part 2
 
-with open("2021/day2/data.txt") as inputfh:
+with open("2021/day02/data.txt") as inputfh:
     data = inputfh.read()
 input = data
 
