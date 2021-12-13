@@ -27,7 +27,14 @@ def traverse_graph():
 
     nodes = graph["start"]
 
-    path = []
-    for node in nodes:
+    paths = []
+    node = ""
 
-        ...
+    while node != "end":
+        path = []
+        for node in nodes:
+
+            # add node to path
+            # get nodes from that path
+            #
+            ...
