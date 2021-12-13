@@ -109,9 +109,18 @@ def traverse_graph():
         # we don't go back to start
         new_nodes -= {"start"}
 
-        # if we're trying to visit a node of lowercase more than once we terminate that path
-        rem_nodes = set(n for n in new_nodes if n in path and n.islower())
+        rem_nodes = set()
+        for n in path:
+            if n.islower() and path.count(n) == 2:
+                rem_nodes.add(n)
+                break
+
         new_nodes -= rem_nodes
+
+        # the rest we only visit once now
+        if rem_nodes:
+            rem_nodes = set(n for n in new_nodes if n in path and n.islower())
+            new_nodes -= rem_nodes
 
         if len(new_nodes) == 0:
             continue
