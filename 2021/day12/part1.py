@@ -124,8 +124,4 @@ def traverse_graph():
 
 paths = traverse_graph()
 # print(sorted(paths))
-# print(len(paths))
-
-
-paths_visit_small = sum([any(n.islower() for n in path) for path in paths])
-print(paths_visit_small)
+print(len(paths))
