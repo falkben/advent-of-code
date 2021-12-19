@@ -16,6 +16,8 @@
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
+<span class="c1"># from numpy import typing as npt</span>
+
 <span class="nb">input</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
 <span class="s2">00100</span>
 <span class="s2">11110</span>
@@ -37,11 +39,6 @@
 <span class="n">c</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
 <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">genfromtxt</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="nb">int</span><span class="p">))</span>
 
-<span class="n">arr_avg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-
-<span class="n">gamma_bin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">arr_avg</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-<span class="n">epsilon_bin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">gamma_bin</span><span class="p">)</span>
-
 
 <span class="k">def</span> <span class="nf">conv_arr_dec</span><span class="p">(</span><span class="n">arr</span><span class="p">):</span>
     <span class="n">dec</span> <span class="o">=</span> <span class="mi">0</span>
@@ -50,16 +47,39 @@
     <span class="k">return</span> <span class="n">dec</span>
 
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;power consumption:&quot;</span><span class="p">,</span> <span class="n">conv_arr_dec</span><span class="p">(</span><span class="n">gamma_bin</span><span class="p">)</span> <span class="o">*</span> <span class="n">conv_arr_dec</span><span class="p">(</span><span class="n">epsilon_bin</span><span class="p">))</span>
+<span class="n">oxy_rows</span> <span class="o">=</span> <span class="n">arr</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+    <span class="n">col_avg</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">oxy_rows</span><span class="p">[:,</span> <span class="n">col</span><span class="p">])</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">oxy_rows</span> <span class="o">=</span> <span class="n">oxy_rows</span><span class="p">[</span><span class="n">oxy_rows</span><span class="p">[:,</span> <span class="n">col</span><span class="p">]</span> <span class="o">==</span> <span class="n">col_avg</span><span class="p">,</span> <span class="p">:]</span>
+
+    <span class="k">if</span> <span class="n">oxy_rows</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">break</span>
+
+<span class="n">oxy_rating</span> <span class="o">=</span> <span class="n">conv_arr_dec</span><span class="p">(</span><span class="n">oxy_rows</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+
+<span class="n">co2_rows</span> <span class="o">=</span> <span class="n">arr</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+    <span class="n">col_avg</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">co2_rows</span><span class="p">[:,</span> <span class="n">col</span><span class="p">])</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">))</span>
+    <span class="n">co2_rows</span> <span class="o">=</span> <span class="n">co2_rows</span><span class="p">[</span><span class="n">co2_rows</span><span class="p">[:,</span> <span class="n">col</span><span class="p">]</span> <span class="o">==</span> <span class="n">col_avg</span><span class="p">,</span> <span class="p">:]</span>
+
+    <span class="k">if</span> <span class="n">co2_rows</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">break</span>
+
+<span class="n">co2_rating</span> <span class="o">=</span> <span class="n">conv_arr_dec</span><span class="p">(</span><span class="n">co2_rows</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;life support:&quot;</span><span class="p">,</span> <span class="n">oxy_rating</span> <span class="o">*</span> <span class="n">co2_rating</span><span class="p">)</span>
 </pre></div>
 </div>
       <div class="flex-1">
         <p>
           Message to user
         </p>
-        <input class="hidden" id="code" value="from io import StringIO
+        <input class="hidden" id="code" value='from io import StringIO
 
 import numpy as np
+
+# from numpy import typing as npt
 
 input = """\
 00100
@@ -82,11 +102,6 @@ with open("2021/day03/data.txt") as fh:
 c = StringIO(input)
 arr = np.genfromtxt(c, dtype=int, delimiter=np.ones(12, int))
 
-arr_avg = np.mean(arr, axis=0)
-
-gamma_bin = np.round(arr_avg).astype(int)
-epsilon_bin = np.abs(1 - gamma_bin)
-
 
 def conv_arr_dec(arr):
     dec = 0
@@ -95,8 +110,29 @@ def conv_arr_dec(arr):
     return dec
 
 
-print("power consumption:", conv_arr_dec(gamma_bin) * conv_arr_dec(epsilon_bin))
-">
+oxy_rows = arr
+for col in range(arr.shape[1]):
+    col_avg = int(np.mean(oxy_rows[:, col]) + 0.5)
+    oxy_rows = oxy_rows[oxy_rows[:, col] == col_avg, :]
+
+    if oxy_rows.shape[0] == 1:
+        break
+
+oxy_rating = conv_arr_dec(oxy_rows.flatten())
+
+co2_rows = arr
+for col in range(arr.shape[1]):
+    col_avg = abs(1 - int(np.mean(co2_rows[:, col]) + 0.5))
+    co2_rows = co2_rows[co2_rows[:, col] == col_avg, :]
+
+    if co2_rows.shape[0] == 1:
+        break
+
+co2_rating = conv_arr_dec(co2_rows.flatten())
+
+
+print("life support:", oxy_rating * co2_rating)
+'>
         <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded""
           onclick="evaluatePython()">Run</button>
         <br />

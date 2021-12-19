@@ -123,9 +123,18 @@
         <span class="c1"># we don&#39;t go back to start</span>
         <span class="n">new_nodes</span> <span class="o">-=</span> <span class="p">{</span><span class="s2">&quot;start&quot;</span><span class="p">}</span>
 
-        <span class="c1"># if we&#39;re trying to visit a node of lowercase more than once we terminate that path</span>
-        <span class="n">rem_nodes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">new_nodes</span> <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">path</span> <span class="ow">and</span> <span class="n">n</span><span class="o">.</span><span class="n">islower</span><span class="p">())</span>
+        <span class="n">rem_nodes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">path</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">n</span><span class="o">.</span><span class="n">islower</span><span class="p">()</span> <span class="ow">and</span> <span class="n">path</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">rem_nodes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+                <span class="k">break</span>
+
         <span class="n">new_nodes</span> <span class="o">-=</span> <span class="n">rem_nodes</span>
+
+        <span class="c1"># the rest we only visit once now</span>
+        <span class="k">if</span> <span class="n">rem_nodes</span><span class="p">:</span>
+            <span class="n">rem_nodes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">new_nodes</span> <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">path</span> <span class="ow">and</span> <span class="n">n</span><span class="o">.</span><span class="n">islower</span><span class="p">())</span>
+            <span class="n">new_nodes</span> <span class="o">-=</span> <span class="n">rem_nodes</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_nodes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">continue</span>
@@ -145,7 +154,7 @@
         <p>
           Message to user
         </p>
-        <input class="hidden" id="code" value=""""
+        <input class="hidden" id="code" value='"""
 find all the paths. how to fully traverse a graph?
 
 graph is made up of nodes
@@ -256,9 +265,18 @@ def traverse_graph():
         # we don't go back to start
         new_nodes -= {"start"}
 
-        # if we're trying to visit a node of lowercase more than once we terminate that path
-        rem_nodes = set(n for n in new_nodes if n in path and n.islower())
+        rem_nodes = set()
+        for n in path:
+            if n.islower() and path.count(n) == 2:
+                rem_nodes.add(n)
+                break
+
         new_nodes -= rem_nodes
+
+        # the rest we only visit once now
+        if rem_nodes:
+            rem_nodes = set(n for n in new_nodes if n in path and n.islower())
+            new_nodes -= rem_nodes
 
         if len(new_nodes) == 0:
             continue
@@ -272,7 +290,7 @@ def traverse_graph():
 paths = traverse_graph()
 # print(sorted(paths))
 print(len(paths))
-">
+'>
         <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded""
           onclick="evaluatePython()">Run</button>
         <br />
