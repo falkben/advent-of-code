@@ -45,7 +45,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         )
 
         # save the output
-        outpath = Path(f"{OUTPUT_DIR}{day_num}/{day_path.name}")
+        outpath = Path(f"{OUTPUT_DIR}{day_num}/{day_path.stem}.html")
         outpath.parents[0].mkdir(parents=True, exist_ok=True)
         with open(outpath, "w") as fh:
             fh.write(html_output)
