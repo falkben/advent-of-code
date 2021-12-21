@@ -27,7 +27,7 @@ npm install
 Build css and keep updated:
 
 ```cmd
-npx tailwindcss -i ./site-src/input.css -o ./dist/output.css --watch
+npx tailwindcss -i ./site-src/input.css -o ./site-dist/output.css --watch
 ```
 
 or for publishing:
