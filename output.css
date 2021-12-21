@@ -435,8 +435,8 @@ Ensure the default browser behavior of the `hidden` attribute.
   display: none;
 }
 
-.flex-1 {
-  flex: 1 1 0%;
+.w-1\/2 {
+  width: 50%;
 }
 
 .list-inside {
@@ -445,6 +445,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .list-disc {
   list-style-type: disc;
+}
+
+.overflow-x-auto {
+  overflow-x: auto;
 }
 
 .rounded {
