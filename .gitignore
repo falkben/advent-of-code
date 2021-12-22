@@ -137,3 +137,4 @@ site-dist/output.css
 # day html output
 pygments.css
 site-dist/**/*.html
+site-dist/**/*.txt

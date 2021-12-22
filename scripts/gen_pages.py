@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import shutil
 from collections import defaultdict
 from pathlib import Path
 from typing import Optional, Sequence
@@ -28,27 +29,46 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         fh.write(pygments_css)
 
     days = defaultdict(list)
-    for day_path in sorted(Path("2021").glob("**/*.py")):
-        day_num = day_path.parts[-2]
+    for year in sorted(Path("./").glob("20*")):
+        year_str = str(year)
+        for day_path in sorted(Path(year).glob("**/*.py")):
+            day_num = day_path.parts[-2].strip("day")
 
-        # store the day/part strings for index.html
-        days[day_num].append(day_path.stem)
+            # store the day/part strings for index.html
+            days[(year_str, day_num)].append(day_path.stem)
 
-        # load the code
-        code = day_path.read_text()
+            # load the code
+            code = day_path.read_text()
 
-        formatted_code = highlight(code, PythonLexer(), HtmlFormatter())
+            formatted_code = highlight(code, PythonLexer(), HtmlFormatter())
 
-        # render the template
-        html_output = day_template.render(
-            {"day_num": day_num, "day_code": formatted_code, "code_str": code}
-        )
+            # render the template
+            html_output = day_template.render(
+                {
+                    "year": year_str,
+                    "part": day_path.stem,
+                    "day_num": day_num,
+                    "day_code": formatted_code,
+                    "code_str": code,
+                }
+            )
 
-        # save the output
-        outpath = Path(f"{OUTPUT_DIR}{day_num}/{day_path.stem}.html")
-        outpath.parents[0].mkdir(parents=True, exist_ok=True)
-        with open(outpath, "w") as fh:
-            fh.write(html_output)
+            # save the output
+            outpath = Path(
+                f"{OUTPUT_DIR}/{year_str}/{day_path.parts[-2]}/{day_path.stem}.html"
+            )
+            outpath.parents[0].mkdir(parents=True, exist_ok=True)
+            with open(outpath, "w") as fh:
+                fh.write(html_output)
+
+        for data_path in sorted(Path(year).glob("**/*.txt")):
+            # copy the data.txt into the dist path
+            shutil.copy(
+                data_path,
+                Path(f"{OUTPUT_DIR}/{year_str}/{data_path.parts[-2]}/{data_path.name}"),
+            )
+
+            data_path
 
     # create index.html
     index_html = index_template.render({"days": days})

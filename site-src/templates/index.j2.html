@@ -7,21 +7,24 @@
   </head>
 
   <body>
-    <div class="text-2xl font-bold underline">Advent of Code</div>
-    <ul>
-    {% for day, parts in days.items() %}
-        <li>{{day}}
-        <ul class="list-disc list-inside">
-            {% for part in parts %}
-            <li>
-                <a class="underline" href="{{ day }}/{{ part }}.html">
-                    {{ part }}.py
-                </a>
-            </li>
-            {% endfor %}
-        </ul>
-        </li>
-    {% endfor %}
-    </ul>
+    <div class="p-2">
+      <div class="text-2xl font-bold underline">Advent of Code</div>
+      <ul>
+      Answers to Advent of Code in Python. Executed in the browser using <a href="https://pyodide.org">Pyodide</a>.
+      {% for (year, day), parts in days.items() %}
+          <li><span class="font-semibold">{{year}} Day {{day}}</span>
+          <ul class="list-disc list-inside">
+              {% for part in parts %}
+              <li>
+                  <a class="underline" href="{{ year }}/day{{ day }}/{{ part }}.html">
+                      {{ part }}.py
+                  </a>
+              </li>
+              {% endfor %}
+          </ul>
+          </li>
+      {% endfor %}
+      </ul>
+    </div>
   </body>
 </html>
