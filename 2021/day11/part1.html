@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="../../output.css" rel="stylesheet" />
+    <link href="../../pygments.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.18.1/full/pyodide.js"></script>
+  </head>
+  <body>
+    <div class="p-2">
+      <div class="text-lg"><a href="../../">Index</a></div>
+      <h1 class="text-2xl font-bold underline">
+          Day 11
+      </h1>
+      <h2 class="text-xl italic">
+        part1
+      </h2>
+      <div>AoC <a href="https://adventofcode.com/2021/day/11" target="_blank">
+        link</a>
+      </div>
+      <div class="flex mt-3">
+        <div class="w-1/2 overflow-x-auto"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+
+<span class="kn">from</span> <span class="nn">rich</span> <span class="kn">import</span> <span class="nb">print</span>
+
+<span class="nb">input</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">5483143223</span>
+<span class="s2">2745854711</span>
+<span class="s2">5264556173</span>
+<span class="s2">6141336146</span>
+<span class="s2">6357385478</span>
+<span class="s2">4167524645</span>
+<span class="s2">2176841721</span>
+<span class="s2">6882881134</span>
+<span class="s2">4846848554</span>
+<span class="s2">5283751526</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="c1"># input = &quot;&quot;&quot;\</span>
+<span class="c1"># 11111</span>
+<span class="c1"># 19991</span>
+<span class="c1"># 19191</span>
+<span class="c1"># 19991</span>
+<span class="c1"># 11111&quot;&quot;&quot;</span>
+
+
+<span class="nb">input</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">8826876714</span>
+<span class="s2">3127787238</span>
+<span class="s2">8182852861</span>
+<span class="s2">4655371483</span>
+<span class="s2">3864551365</span>
+<span class="s2">1878253581</span>
+<span class="s2">8317422437</span>
+<span class="s2">1517254266</span>
+<span class="s2">2621124761</span>
+<span class="s2">3473331514&quot;&quot;&quot;</span>
+
+
+<span class="k">def</span> <span class="nf">get_adjacent</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
+
+    <span class="k">yield</span> <span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="p">),</span> <span class="n">data</span><span class="p">[(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="p">)]</span>
+    <span class="k">yield</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="p">),</span> <span class="n">data</span><span class="p">[(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="p">)]</span>
+    <span class="k">yield</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="n">data</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)]</span>
+    <span class="k">yield</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">data</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+    <span class="k">yield</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">data</span><span class="p">[(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+    <span class="k">yield</span> <span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="n">data</span><span class="p">[(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)]</span>
+    <span class="k">yield</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="n">data</span><span class="p">[(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)]</span>
+    <span class="k">yield</span> <span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">data</span><span class="p">[(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+
+
+<span class="k">def</span> <span class="nf">print_data</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="n">cols</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;white&quot;</span><span class="p">}</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_lines</span><span class="p">):</span>
+        <span class="n">line_str</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_cols</span><span class="p">):</span>
+            <span class="n">line_str</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)])</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="n">cols</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">char</span><span class="p">,</span> <span class="s1">&#39;grey37&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">]</span><span class="si">{</span><span class="n">char</span><span class="si">}</span><span class="s2">[/</span><span class="si">{</span><span class="n">cols</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">char</span><span class="p">,</span> <span class="s1">&#39;grey37&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">]&quot;</span>
+                    <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">line_str</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+
+
+<span class="n">num_lines</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">input</span><span class="o">.</span><span class="n">splitlines</span><span class="p">())</span>
+<span class="n">num_cols</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">input</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">input</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()):</span>
+    <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+        <span class="n">data</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+
+<span class="c1"># print(&quot;Before any steps:&quot;)</span>
+<span class="c1"># print_data(data)</span>
+
+<span class="n">flashes</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_lines</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_cols</span><span class="p">):</span>
+            <span class="n">data</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_lines</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_cols</span><span class="p">):</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="n">data</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)]</span>
+
+            <span class="n">stack</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="c1"># any val &gt; 9 flashes:</span>
+            <span class="c1"># values adjacent (incl. diag.) flash if &gt; 9</span>
+            <span class="c1"># values can only flash once per step</span>
+            <span class="k">if</span> <span class="n">val</span> <span class="o">&gt;</span> <span class="mi">9</span><span class="p">:</span>
+
+                <span class="n">stack</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">))</span>
+                <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">stack</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+
+                    <span class="c1"># pop item off stack</span>
+                    <span class="n">ii</span><span class="p">,</span> <span class="n">jj</span> <span class="o">=</span> <span class="n">stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+
+                    <span class="c1"># skip if we already hit this</span>
+                    <span class="k">if</span> <span class="n">data</span><span class="p">[(</span><span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">)]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                        <span class="k">continue</span>
+
+                    <span class="n">flashes</span> <span class="o">+=</span> <span class="mi">1</span>
+
+                    <span class="c1"># set value to signal (-1)</span>
+                    <span class="n">data</span><span class="p">[(</span><span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">)]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+                    <span class="c1"># check adjacent values of stack item</span>
+                    <span class="k">for</span> <span class="p">(</span><span class="n">i_adj</span><span class="p">,</span> <span class="n">j_adj</span><span class="p">),</span> <span class="n">adj_val</span> <span class="ow">in</span> <span class="n">get_adjacent</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="n">adj_val</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                            <span class="k">continue</span>
+
+                        <span class="n">data</span><span class="p">[(</span><span class="n">i_adj</span><span class="p">,</span> <span class="n">j_adj</span><span class="p">)]</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="k">if</span> <span class="n">data</span><span class="p">[(</span><span class="n">i_adj</span><span class="p">,</span> <span class="n">j_adj</span><span class="p">)]</span> <span class="o">&gt;</span> <span class="mi">9</span><span class="p">:</span>
+                            <span class="n">stack</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">i_adj</span><span class="p">,</span> <span class="n">j_adj</span><span class="p">))</span>
+
+    <span class="c1"># finally, any that flash have energy set to 0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_lines</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_cols</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">data</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="n">data</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_lines</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_cols</span><span class="p">):</span>
+            <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)])</span>
+    <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">items</span><span class="p">):</span>
+        <span class="k">break</span>
+
+    <span class="c1"># printing</span>
+    <span class="c1"># print(f&quot;After step {step+1}:&quot;)</span>
+    <span class="c1"># print_data(data)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">step</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+        <div class="w-1/2">
+          <textarea class="hidden" id="code" type="text">from collections import defaultdict
+
+from rich import print
+
+input = """\
+5483143223
+2745854711
+5264556173
+6141336146
+6357385478
+4167524645
+2176841721
+6882881134
+4846848554
+5283751526
+"""
+
+# input = """\
+# 11111
+# 19991
+# 19191
+# 19991
+# 11111"""
+
+
+input = """\
+8826876714
+3127787238
+8182852861
+4655371483
+3864551365
+1878253581
+8317422437
+1517254266
+2621124761
+3473331514"""
+
+
+def get_adjacent(data, i, j):
+
+    yield (i - 1, j), data[(i - 1, j)]
+    yield (i + 1, j), data[(i + 1, j)]
+    yield (i, j - 1), data[(i, j - 1)]
+    yield (i, j + 1), data[(i, j + 1)]
+    yield (i + 1, j + 1), data[(i + 1, j + 1)]
+    yield (i - 1, j - 1), data[(i - 1, j - 1)]
+    yield (i + 1, j - 1), data[(i + 1, j - 1)]
+    yield (i - 1, j + 1), data[(i - 1, j + 1)]
+
+
+def print_data(data):
+    cols = {0: "white"}
+    for i in range(num_lines):
+        line_str = []
+        for j in range(num_cols):
+            line_str.append(data[(i, j)])
+        print(
+            "".join(
+                [
+                    f"[{cols.get(char, 'grey37')}]{char}[/{cols.get(char, 'grey37')}]"
+                    for char in line_str
+                ]
+            )
+        )
+    print()
+
+
+num_lines = len(input.splitlines())
+num_cols = len(input.splitlines()[0])
+
+data = defaultdict(lambda: -1)
+for i, line in enumerate(input.splitlines()):
+    for j, val in enumerate(line):
+        data[(i, j)] = int(val)
+
+# print("Before any steps:")
+# print_data(data)
+
+flashes = 0
+for step in range(1000):
+
+    for i in range(num_lines):
+        for j in range(num_cols):
+            data[(i, j)] += 1
+
+    for i in range(num_lines):
+        for j in range(num_cols):
+            val = data[(i, j)]
+
+            stack = []
+            # any val > 9 flashes:
+            # values adjacent (incl. diag.) flash if > 9
+            # values can only flash once per step
+            if val > 9:
+
+                stack.append((i, j))
+                while len(stack) > 0:
+
+                    # pop item off stack
+                    ii, jj = stack.pop()
+
+                    # skip if we already hit this
+                    if data[(ii, jj)] == -1:
+                        continue
+
+                    flashes += 1
+
+                    # set value to signal (-1)
+                    data[(ii, jj)] = -1
+
+                    # check adjacent values of stack item
+                    for (i_adj, j_adj), adj_val in get_adjacent(data, ii, jj):
+                        if adj_val == -1:
+                            continue
+
+                        data[(i_adj, j_adj)] += 1
+                        if data[(i_adj, j_adj)] > 9:
+                            stack.append((i_adj, j_adj))
+
+    # finally, any that flash have energy set to 0
+    for i in range(num_lines):
+        for j in range(num_cols):
+            if data[(i, j)] == -1:
+                data[(i, j)] = 0
+
+    items = []
+    for i in range(num_lines):
+        for j in range(num_cols):
+            items.append(data[(i, j)])
+    if all(i == 0 for i in items):
+        break
+
+    # printing
+    # print(f"After step {step+1}:")
+    # print_data(data)
+
+print(step + 1)
+</textarea>
+          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            onclick="evaluatePython()">Run</button>
+          <br />
+          <br />
+          <div>Output:</div>
+          <textarea id="output" style="width: 100%;" rows="6" disabled></textarea>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const output = document.getElementById("output");
+      const code = document.getElementById("code");
+
+      function addToOutput(s) {
+        output.value += s + "\n";
+      }
+
+      output.value = "Initializing...\n";
+      // init Pyodide
+      async function main() {
+        let pyodide = await loadPyodide({
+          indexURL: "https://cdn.jsdelivr.net/pyodide/v0.18.1/full/",
+        });
+        output.value += "Ready!\n";
+        return pyodide;
+      }
+      let pyodideReadyPromise = main();
+
+      async function evaluatePython() {
+        let pyodide = await pyodideReadyPromise;
+        try {
+          await pyodide.loadPackagesFromImports(code.value);
+          pyodide.runPython(code.value);
+          addToOutput(pyodide.globals.return_value);
+        } catch (err) {
+          addToOutput(err);
+        }
+      }
+    </script>
+  </body>
+</html>

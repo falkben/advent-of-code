@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="../../output.css" rel="stylesheet" />
+    <link href="../../pygments.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.18.1/full/pyodide.js"></script>
+  </head>
+  <body>
+    <div class="p-2">
+      <div class="text-lg"><a href="../../">Index</a></div>
+      <h1 class="text-2xl font-bold underline">
+          Day 07
+      </h1>
+      <h2 class="text-xl italic">
+        part2
+      </h2>
+      <div>AoC <a href="https://adventofcode.com/2021/day/7" target="_blank">
+        link</a>
+      </div>
+      <div class="flex mt-3">
+        <div class="w-1/2 overflow-x-auto"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># input = &quot;16,1,2,0,4,2,7,1,2,14&quot;</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;2021/day07/data.txt&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
+    <span class="nb">input</span> <span class="o">=</span> <span class="n">fh</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="n">pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+
+<span class="c1"># cost for each move</span>
+<span class="c1"># cost for a 3 move = 1 + 2 + 3 = n * (n + 1) / 2</span>
+
+<span class="c1"># minimize the diff to a shared mid point</span>
+
+<span class="n">max_pos</span> <span class="o">=</span> <span class="n">pos</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="n">min_pos</span> <span class="o">=</span> <span class="n">pos</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+
+<span class="n">check_vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">pos</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">],</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">min_pos</span><span class="p">,</span> <span class="n">max_pos</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:],</span>
+<span class="p">)</span>
+<span class="n">pos_vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">pos</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">check_vals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:])</span>
+
+<span class="n">cost</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">pos_vals</span> <span class="o">-</span> <span class="n">check_vals</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">pos_vals</span> <span class="o">-</span> <span class="n">check_vals</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="n">target</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">cost</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+
+<span class="n">fuel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">pos</span> <span class="o">-</span> <span class="n">target</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">pos</span> <span class="o">-</span> <span class="n">target</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">fuel</span><span class="p">)</span>
+</pre></div>
+</div>
+        <div class="w-1/2">
+          <textarea class="hidden" id="code" type="text">import numpy as np
+
+# input = "16,1,2,0,4,2,7,1,2,14"
+
+with open("2021/day07/data.txt") as fh:
+    input = fh.read()
+
+pos = np.fromstring(input, dtype=int, sep=",")
+
+# cost for each move
+# cost for a 3 move = 1 + 2 + 3 = n * (n + 1) / 2
+
+# minimize the diff to a shared mid point
+
+max_pos = pos.max()
+min_pos = pos.min()
+
+check_vals = np.dot(
+    np.ones(pos.shape, dtype=int)[:, None],
+    np.arange(min_pos, max_pos + 1, dtype=int)[None, :],
+)
+pos_vals = np.dot(pos[:, None], np.ones(check_vals.shape[1], dtype=int)[None, :])
+
+cost = np.abs(pos_vals - check_vals) * (np.abs(pos_vals - check_vals) + 1) / 2
+target = np.argmin(np.sum(cost, axis=0))
+
+fuel = np.sum(np.abs(pos - target) * (np.abs(pos - target) + 1) / 2)
+
+print(fuel)
+</textarea>
+          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            onclick="evaluatePython()">Run</button>
+          <br />
+          <br />
+          <div>Output:</div>
+          <textarea id="output" style="width: 100%;" rows="6" disabled></textarea>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const output = document.getElementById("output");
+      const code = document.getElementById("code");
+
+      function addToOutput(s) {
+        output.value += s + "\n";
+      }
+
+      output.value = "Initializing...\n";
+      // init Pyodide
+      async function main() {
+        let pyodide = await loadPyodide({
+          indexURL: "https://cdn.jsdelivr.net/pyodide/v0.18.1/full/",
+        });
+        output.value += "Ready!\n";
+        return pyodide;
+      }
+      let pyodideReadyPromise = main();
+
+      async function evaluatePython() {
+        let pyodide = await pyodideReadyPromise;
+        try {
+          await pyodide.loadPackagesFromImports(code.value);
+          pyodide.runPython(code.value);
+          addToOutput(pyodide.globals.return_value);
+        } catch (err) {
+          addToOutput(err);
+        }
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="../../output.css" rel="stylesheet" />
+    <link href="../../pygments.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.18.1/full/pyodide.js"></script>
+  </head>
+  <body>
+    <div class="p-2">
+      <div class="text-lg"><a href="../../">Index</a></div>
+      <h1 class="text-2xl font-bold underline">
+          Day 09
+      </h1>
+      <h2 class="text-xl italic">
+        part2
+      </h2>
+      <div>AoC <a href="https://adventofcode.com/2021/day/9" target="_blank">
+        link</a>
+      </div>
+      <div class="flex mt-3">
+        <div class="w-1/2 overflow-x-auto"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="nb">input</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">2199943210</span>
+<span class="s2">3987894921</span>
+<span class="s2">9856789892</span>
+<span class="s2">8767896789</span>
+<span class="s2">9899965678&quot;&quot;&quot;</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;2021/day09/data.txt&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
+    <span class="nb">input</span> <span class="o">=</span> <span class="n">fh</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="n">linelen</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">input</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">rowlen</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">input</span><span class="o">.</span><span class="n">splitlines</span><span class="p">())</span>
+
+<span class="n">hmap</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">genfromtxt</span><span class="p">(</span>
+    <span class="nb">input</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">linelen</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span>
+<span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">calc_basin_size</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;recursive function that in place modifies the array</span>
+<span class="sd">    in order to prevent back searches</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="mi">9</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="n">size</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">9</span>
+
+    <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">9</span><span class="p">:</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="n">calc_basin_size</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">rowlen</span> <span class="o">-</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">9</span><span class="p">:</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="n">calc_basin_size</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">j</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">9</span><span class="p">:</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="n">calc_basin_size</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">j</span> <span class="o">!=</span> <span class="n">linelen</span> <span class="o">-</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">9</span><span class="p">:</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="n">calc_basin_size</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">size</span>
+
+
+<span class="n">low_pts</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">hmap</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">hmap</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="n">hmap</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">rowlen</span> <span class="o">-</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">val</span> <span class="o">&lt;</span> <span class="n">hmap</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="p">])</span>
+            <span class="ow">and</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">val</span> <span class="o">&lt;</span> <span class="n">hmap</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="p">])</span>
+            <span class="ow">and</span> <span class="p">(</span><span class="n">j</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">val</span> <span class="o">&lt;</span> <span class="n">hmap</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
+            <span class="ow">and</span> <span class="p">(</span><span class="n">j</span> <span class="o">==</span> <span class="n">linelen</span> <span class="o">-</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">val</span> <span class="o">&lt;</span> <span class="n">hmap</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
+        <span class="p">):</span>
+            <span class="c1"># we&#39;ve found a low point</span>
+            <span class="n">low_pts</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">))</span>
+
+<span class="n">basins</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">low_pts</span><span class="p">:</span>
+    <span class="n">basins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">calc_basin_size</span><span class="p">(</span><span class="n">hmap</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">))</span>
+
+<span class="n">top_basins</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">basins</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">top_basins</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]))</span>
+</pre></div>
+</div>
+        <div class="w-1/2">
+          <textarea class="hidden" id="code" type="text">import numpy as np
+
+input = """\
+2199943210
+3987894921
+9856789892
+8767896789
+9899965678"""
+
+with open("2021/day09/data.txt") as fh:
+    input = fh.read()
+
+linelen = len(input.splitlines()[0])
+rowlen = len(input.splitlines())
+
+hmap = np.genfromtxt(
+    input.splitlines(), dtype=np.int8, delimiter=np.ones(linelen, dtype=np.int8)
+)
+
+
+def calc_basin_size(arr, i, j, size=0):
+    """recursive function that in place modifies the array
+    in order to prevent back searches
+    """
+    if arr[i, j] == 9:
+        return 0
+
+    size += 1
+    arr[i, j] = 9
+
+    if i != 0 and arr[i - 1, j] != 9:
+        size = calc_basin_size(arr, i - 1, j, size)
+    if i != rowlen - 1 and arr[i + 1, j] != 9:
+        size = calc_basin_size(arr, i + 1, j, size)
+
+    if j != 0 and arr[i, j - 1] != 9:
+        size = calc_basin_size(arr, i, j - 1, size)
+    if j != linelen - 1 and arr[i, j + 1] != 9:
+        size = calc_basin_size(arr, i, j + 1, size)
+
+    return size
+
+
+low_pts = []
+for i in range(hmap.shape[0]):
+    for j in range(hmap.shape[1]):
+        val = hmap[i, j]
+
+        if (
+            (i == rowlen - 1 or val < hmap[i + 1, j])
+            and (i == 0 or val < hmap[i - 1, j])
+            and (j == 0 or val < hmap[i, j - 1])
+            and (j == linelen - 1 or val < hmap[i, j + 1])
+        ):
+            # we've found a low point
+            low_pts.append((i, j))
+
+basins = []
+for i, j in low_pts:
+    basins.append(calc_basin_size(hmap, i, j))
+
+top_basins = sorted(basins, reverse=True)
+
+print(np.prod(top_basins[0:3]))
+</textarea>
+          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            onclick="evaluatePython()">Run</button>
+          <br />
+          <br />
+          <div>Output:</div>
+          <textarea id="output" style="width: 100%;" rows="6" disabled></textarea>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const output = document.getElementById("output");
+      const code = document.getElementById("code");
+
+      function addToOutput(s) {
+        output.value += s + "\n";
+      }
+
+      output.value = "Initializing...\n";
+      // init Pyodide
+      async function main() {
+        let pyodide = await loadPyodide({
+          indexURL: "https://cdn.jsdelivr.net/pyodide/v0.18.1/full/",
+        });
+        output.value += "Ready!\n";
+        return pyodide;
+      }
+      let pyodideReadyPromise = main();
+
+      async function evaluatePython() {
+        let pyodide = await pyodideReadyPromise;
+        try {
+          await pyodide.loadPackagesFromImports(code.value);
+          pyodide.runPython(code.value);
+          addToOutput(pyodide.globals.return_value);
+        } catch (err) {
+          addToOutput(err);
+        }
+      }
+    </script>
+  </body>
+</html>
