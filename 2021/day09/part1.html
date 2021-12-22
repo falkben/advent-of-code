@@ -19,8 +19,8 @@
       <div>AoC <a href="https://adventofcode.com/2021/day/9" target="_blank">
         link</a>
       </div>
-      <div class="flex mt-3">
-        <div class="w-1/2 overflow-x-auto"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+      <div class="flex space-x-2 mt-3">
+        <div class="w-2/3 overflow-x-auto"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="nb">input</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
 <span class="s2">2199943210</span>
@@ -29,8 +29,8 @@
 <span class="s2">8767896789</span>
 <span class="s2">9899965678&quot;&quot;&quot;</span>
 
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;2021/day09/data.txt&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
-    <span class="nb">input</span> <span class="o">=</span> <span class="n">fh</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="c1"># with open(&quot;2021/day09/data.txt&quot;) as fh:</span>
+<span class="c1">#     input = fh.read()</span>
 
 <span class="n">linelen</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">input</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
 <span class="n">rowlen</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">input</span><span class="o">.</span><span class="n">splitlines</span><span class="p">())</span>
@@ -54,9 +54,11 @@
             <span class="nb">print</span><span class="p">(</span><span class="n">hmap</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">risk_lvl</span><span class="p">)</span>
+
+<span class="n">return_value</span> <span class="o">=</span> <span class="n">risk_lvl</span>
 </pre></div>
 </div>
-        <div class="w-1/2">
+        <div class="w-1/3">
           <textarea class="hidden" id="code" type="text">import numpy as np
 
 input = """\
@@ -66,8 +68,8 @@ input = """\
 8767896789
 9899965678"""
 
-with open("2021/day09/data.txt") as fh:
-    input = fh.read()
+# with open("2021/day09/data.txt") as fh:
+#     input = fh.read()
 
 linelen = len(input.splitlines()[0])
 rowlen = len(input.splitlines())
@@ -91,6 +93,8 @@ for i in range(hmap.shape[0]):
             print(hmap[i, j])
 
 print(risk_lvl)
+
+return_value = risk_lvl
 </textarea>
           <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             onclick="evaluatePython()">Run</button>
@@ -126,7 +130,7 @@ print(risk_lvl)
         try {
           await pyodide.loadPackagesFromImports(code.value);
           pyodide.runPython(code.value);
-          addToOutput(pyodide.globals.return_value);
+          addToOutput(pyodide.globals.get('return_value'));
         } catch (err) {
           addToOutput(err);
         }

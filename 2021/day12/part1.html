@@ -19,8 +19,8 @@
       <div>AoC <a href="https://adventofcode.com/2021/day/12" target="_blank">
         link</a>
       </div>
-      <div class="flex mt-3">
-        <div class="w-1/2 overflow-x-auto"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+      <div class="flex space-x-2 mt-3">
+        <div class="w-2/3 overflow-x-auto"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">find all the paths. how to fully traverse a graph?</span>
 
 <span class="sd">graph is made up of nodes</span>
@@ -49,60 +49,60 @@
 <span class="s2">A-end</span>
 <span class="s2">b-end&quot;&quot;&quot;</span>
 
-<span class="nb">input</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
-<span class="s2">dc-end</span>
-<span class="s2">HN-start</span>
-<span class="s2">start-kj</span>
-<span class="s2">dc-start</span>
-<span class="s2">dc-HN</span>
-<span class="s2">LN-dc</span>
-<span class="s2">HN-end</span>
-<span class="s2">kj-sa</span>
-<span class="s2">kj-HN</span>
-<span class="s2">kj-dc&quot;&quot;&quot;</span>
+<span class="c1"># input = &quot;&quot;&quot;\</span>
+<span class="c1"># dc-end</span>
+<span class="c1"># HN-start</span>
+<span class="c1"># start-kj</span>
+<span class="c1"># dc-start</span>
+<span class="c1"># dc-HN</span>
+<span class="c1"># LN-dc</span>
+<span class="c1"># HN-end</span>
+<span class="c1"># kj-sa</span>
+<span class="c1"># kj-HN</span>
+<span class="c1"># kj-dc&quot;&quot;&quot;</span>
 
-<span class="nb">input</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
-<span class="s2">fs-end</span>
-<span class="s2">he-DX</span>
-<span class="s2">fs-he</span>
-<span class="s2">start-DX</span>
-<span class="s2">pj-DX</span>
-<span class="s2">end-zg</span>
-<span class="s2">zg-sl</span>
-<span class="s2">zg-pj</span>
-<span class="s2">pj-he</span>
-<span class="s2">RW-he</span>
-<span class="s2">fs-DX</span>
-<span class="s2">pj-RW</span>
-<span class="s2">zg-RW</span>
-<span class="s2">start-pj</span>
-<span class="s2">he-WI</span>
-<span class="s2">zg-he</span>
-<span class="s2">pj-fs</span>
-<span class="s2">start-RW&quot;&quot;&quot;</span>
+<span class="c1"># input = &quot;&quot;&quot;\</span>
+<span class="c1"># fs-end</span>
+<span class="c1"># he-DX</span>
+<span class="c1"># fs-he</span>
+<span class="c1"># start-DX</span>
+<span class="c1"># pj-DX</span>
+<span class="c1"># end-zg</span>
+<span class="c1"># zg-sl</span>
+<span class="c1"># zg-pj</span>
+<span class="c1"># pj-he</span>
+<span class="c1"># RW-he</span>
+<span class="c1"># fs-DX</span>
+<span class="c1"># pj-RW</span>
+<span class="c1"># zg-RW</span>
+<span class="c1"># start-pj</span>
+<span class="c1"># he-WI</span>
+<span class="c1"># zg-he</span>
+<span class="c1"># pj-fs</span>
+<span class="c1"># start-RW&quot;&quot;&quot;</span>
 
-<span class="nb">input</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
-<span class="s2">ma-start</span>
-<span class="s2">YZ-rv</span>
-<span class="s2">MP-rv</span>
-<span class="s2">vc-MP</span>
-<span class="s2">QD-kj</span>
-<span class="s2">rv-kj</span>
-<span class="s2">ma-rv</span>
-<span class="s2">YZ-zd</span>
-<span class="s2">UB-rv</span>
-<span class="s2">MP-xe</span>
-<span class="s2">start-MP</span>
-<span class="s2">zd-end</span>
-<span class="s2">ma-UB</span>
-<span class="s2">ma-MP</span>
-<span class="s2">UB-xe</span>
-<span class="s2">end-UB</span>
-<span class="s2">ju-MP</span>
-<span class="s2">ma-xe</span>
-<span class="s2">zd-UB</span>
-<span class="s2">start-xe</span>
-<span class="s2">YZ-end&quot;&quot;&quot;</span>
+<span class="c1"># input = &quot;&quot;&quot;\</span>
+<span class="c1"># ma-start</span>
+<span class="c1"># YZ-rv</span>
+<span class="c1"># MP-rv</span>
+<span class="c1"># vc-MP</span>
+<span class="c1"># QD-kj</span>
+<span class="c1"># rv-kj</span>
+<span class="c1"># ma-rv</span>
+<span class="c1"># YZ-zd</span>
+<span class="c1"># UB-rv</span>
+<span class="c1"># MP-xe</span>
+<span class="c1"># start-MP</span>
+<span class="c1"># zd-end</span>
+<span class="c1"># ma-UB</span>
+<span class="c1"># ma-MP</span>
+<span class="c1"># UB-xe</span>
+<span class="c1"># end-UB</span>
+<span class="c1"># ju-MP</span>
+<span class="c1"># ma-xe</span>
+<span class="c1"># zd-UB</span>
+<span class="c1"># start-xe</span>
+<span class="c1"># YZ-end&quot;&quot;&quot;</span>
 
 <span class="n">graph</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">set</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">input</span><span class="o">.</span><span class="n">splitlines</span><span class="p">():</span>
@@ -147,9 +147,11 @@
 <span class="n">paths</span> <span class="o">=</span> <span class="n">traverse_graph</span><span class="p">()</span>
 <span class="c1"># print(sorted(paths))</span>
 <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">paths</span><span class="p">))</span>
+
+<span class="n">return_value</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">paths</span><span class="p">)</span>
 </pre></div>
 </div>
-        <div class="w-1/2">
+        <div class="w-1/3">
           <textarea class="hidden" id="code" type="text">"""
 find all the paths. how to fully traverse a graph?
 
@@ -179,60 +181,60 @@ b-d
 A-end
 b-end"""
 
-input = """\
-dc-end
-HN-start
-start-kj
-dc-start
-dc-HN
-LN-dc
-HN-end
-kj-sa
-kj-HN
-kj-dc"""
+# input = """\
+# dc-end
+# HN-start
+# start-kj
+# dc-start
+# dc-HN
+# LN-dc
+# HN-end
+# kj-sa
+# kj-HN
+# kj-dc"""
 
-input = """\
-fs-end
-he-DX
-fs-he
-start-DX
-pj-DX
-end-zg
-zg-sl
-zg-pj
-pj-he
-RW-he
-fs-DX
-pj-RW
-zg-RW
-start-pj
-he-WI
-zg-he
-pj-fs
-start-RW"""
+# input = """\
+# fs-end
+# he-DX
+# fs-he
+# start-DX
+# pj-DX
+# end-zg
+# zg-sl
+# zg-pj
+# pj-he
+# RW-he
+# fs-DX
+# pj-RW
+# zg-RW
+# start-pj
+# he-WI
+# zg-he
+# pj-fs
+# start-RW"""
 
-input = """\
-ma-start
-YZ-rv
-MP-rv
-vc-MP
-QD-kj
-rv-kj
-ma-rv
-YZ-zd
-UB-rv
-MP-xe
-start-MP
-zd-end
-ma-UB
-ma-MP
-UB-xe
-end-UB
-ju-MP
-ma-xe
-zd-UB
-start-xe
-YZ-end"""
+# input = """\
+# ma-start
+# YZ-rv
+# MP-rv
+# vc-MP
+# QD-kj
+# rv-kj
+# ma-rv
+# YZ-zd
+# UB-rv
+# MP-xe
+# start-MP
+# zd-end
+# ma-UB
+# ma-MP
+# UB-xe
+# end-UB
+# ju-MP
+# ma-xe
+# zd-UB
+# start-xe
+# YZ-end"""
 
 graph = defaultdict(set)
 for line in input.splitlines():
@@ -277,6 +279,8 @@ def traverse_graph():
 paths = traverse_graph()
 # print(sorted(paths))
 print(len(paths))
+
+return_value = len(paths)
 </textarea>
           <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             onclick="evaluatePython()">Run</button>
@@ -312,7 +316,7 @@ print(len(paths))
         try {
           await pyodide.loadPackagesFromImports(code.value);
           pyodide.runPython(code.value);
-          addToOutput(pyodide.globals.return_value);
+          addToOutput(pyodide.globals.get('return_value'));
         } catch (err) {
           addToOutput(err);
         }

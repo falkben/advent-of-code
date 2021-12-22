@@ -19,8 +19,8 @@
       <div>AoC <a href="https://adventofcode.com/2021/day/8" target="_blank">
         link</a>
       </div>
-      <div class="flex mt-3">
-        <div class="w-1/2 overflow-x-auto"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+      <div class="flex space-x-2 mt-3">
+        <div class="w-2/3 overflow-x-auto"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">4 digit, seven segment display</span>
 <span class="sd">segments a,b,c,d,e,f,g</span>
 <span class="sd">wires are connected randomly</span>
@@ -62,8 +62,8 @@
 <span class="s2">gcafb gcf dcaebfg ecagb gf abcdeg gaef cafbge fdbac fegbdc | fgae cfgab fg bagce</span>
 <span class="s2">&quot;&quot;&quot;</span>
 
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;2021/day08/data.txt&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
-    <span class="nb">input</span> <span class="o">=</span> <span class="n">fh</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="c1"># with open(&quot;2021/day08/data.txt&quot;) as fh:</span>
+<span class="c1">#     input = fh.read()</span>
 
 <span class="n">uniq_digits_in_output</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">input</span><span class="o">.</span><span class="n">splitlines</span><span class="p">():</span>
@@ -78,9 +78,11 @@
     <span class="p">]</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">uniq_digits_in_output</span><span class="p">)</span>
+
+<span class="n">return_value</span> <span class="o">=</span> <span class="n">uniq_digits_in_output</span>
 </pre></div>
 </div>
-        <div class="w-1/2">
+        <div class="w-1/3">
           <textarea class="hidden" id="code" type="text">"""
 4 digit, seven segment display
 segments a,b,c,d,e,f,g
@@ -123,8 +125,8 @@ egadfb cdbfeg cegd fecab cgb gbdefca cg fgcdab egfdb bfceg | gbdfcae bgc cg cgb
 gcafb gcf dcaebfg ecagb gf abcdeg gaef cafbge fdbac fegbdc | fgae cfgab fg bagce
 """
 
-with open("2021/day08/data.txt") as fh:
-    input = fh.read()
+# with open("2021/day08/data.txt") as fh:
+#     input = fh.read()
 
 uniq_digits_in_output = 0
 for line in input.splitlines():
@@ -139,6 +141,8 @@ for line in input.splitlines():
     ]
 
 print(uniq_digits_in_output)
+
+return_value = uniq_digits_in_output
 </textarea>
           <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             onclick="evaluatePython()">Run</button>
@@ -174,7 +178,7 @@ print(uniq_digits_in_output)
         try {
           await pyodide.loadPackagesFromImports(code.value);
           pyodide.runPython(code.value);
-          addToOutput(pyodide.globals.return_value);
+          addToOutput(pyodide.globals.get('return_value'));
         } catch (err) {
           addToOutput(err);
         }
