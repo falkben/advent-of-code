@@ -65,8 +65,8 @@ egadfb cdbfeg cegd fecab cgb gbdefca cg fgcdab egfdb bfceg | gbdfcae bgc cg cgb
 gcafb gcf dcaebfg ecagb gf abcdeg gaef cafbge fdbac fegbdc | fgae cfgab fg bagce
 """
 
-with open("2021/day08/data.txt") as fh:
-    input = fh.read()
+# with open("2021/day08/data.txt") as fh:
+#     input = fh.read()
 
 total_output = 0
 for line in input.splitlines():
@@ -115,3 +115,5 @@ for line in input.splitlines():
     )
 
 print(total_output)
+
+return_value = total_output

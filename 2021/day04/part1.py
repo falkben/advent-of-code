@@ -6,7 +6,7 @@ input = """\
 22 13 17 11  0
  8  2 23  4 24
 21  9 14 16  7
- 6 10  3 18  5E
+ 6 10  3 18  5
  1 12 20 15 19
 
  3 15  0  2 22
@@ -21,8 +21,8 @@ input = """\
 22 11 13  6  5
  2  0 12  3  7"""
 
-with open("2021/day04/data.txt") as fh:
-    input = fh.read()
+# with open("2021/day04/data.txt") as fh:
+#     input = fh.read()
 
 board_data_list = []
 
@@ -38,29 +38,33 @@ boards = np.array_split(all_board_data, all_board_data.shape[0] / 5)
 
 
 def calc_answer(arr, draw):
-    print(draw * np.sum(arr[arr != -1]))
+    answer = draw * np.sum(arr[arr != -1])
+    print(answer)
 
 
-for draw in draw_nums:
-    for board in boards:
-        if draw in board:
-            board[board == draw] = -1
+def play():
+    for draw in draw_nums:
+        for board in boards:
+            if draw in board:
+                board[board == draw] = -1
 
-            for row in board:
-                if np.all(row == -1):
-                    # we have a winner
-                    calc_answer(board, draw)
-                    raise (SystemExit)
-            for col in board.transpose():
-                if np.all(col == -1):
-                    # we have a winner
-                    calc_answer(board, draw)
-                    raise (SystemExit)
-            # if np.all(board.diagonal() == -1):
-            #     # we have a winner
-            #     ...
-            #     raise(SystemExit)
-            # if np.all(np.fliplr(board).diagonal() == -1):
-            #     # we have a winner
-            #     ...
-            #     raise(SystemExit)
+                for row in board:
+                    if np.all(row == -1):
+                        # we have a winner
+                        return calc_answer(board, draw)
+                for col in board.transpose():
+                    if np.all(col == -1):
+                        # we have a winner
+                        return calc_answer(board, draw)
+
+                # if np.all(board.diagonal() == -1):
+                #     # we have a winner
+                #     ...
+                #     raise(SystemExit)
+                # if np.all(np.fliplr(board).diagonal() == -1):
+                #     # we have a winner
+                #     ...
+                #     raise(SystemExit)
+
+
+return_value = play()

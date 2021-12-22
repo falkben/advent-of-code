@@ -1,6 +1,6 @@
 from collections import defaultdict
 
-from rich import print
+# from rich import print
 
 input = """\
 5483143223
@@ -23,17 +23,17 @@ input = """\
 # 11111"""
 
 
-input = """\
-8826876714
-3127787238
-8182852861
-4655371483
-3864551365
-1878253581
-8317422437
-1517254266
-2621124761
-3473331514"""
+# input = """\
+# 8826876714
+# 3127787238
+# 8182852861
+# 4655371483
+# 3864551365
+# 1878253581
+# 8317422437
+# 1517254266
+# 2621124761
+# 3473331514"""
 
 
 def get_adjacent(data, i, j):
@@ -135,3 +135,5 @@ for step in range(1000):
     # print_data(data)
 
 print(step + 1)
+
+return_value = step + 1

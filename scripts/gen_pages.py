@@ -61,15 +61,6 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             with open(outpath, "w") as fh:
                 fh.write(html_output)
 
-        for data_path in sorted(Path(year).glob("**/*.txt")):
-            # copy the data.txt into the dist path
-            shutil.copy(
-                data_path,
-                Path(f"{OUTPUT_DIR}/{year_str}/{data_path.parts[-2]}/{data_path.name}"),
-            )
-
-            data_path
-
     # create index.html
     index_html = index_template.render({"days": days})
     with open(f"{OUTPUT_DIR}/index.html", "w") as fh:

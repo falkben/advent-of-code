@@ -16,8 +16,8 @@ input = """\
 00010
 01010"""
 
-with open("2021/day03/data.txt") as fh:
-    input = fh.read()
+# with open("2021/day03/data.txt") as fh:
+#     input = fh.read()
 
 
 c = StringIO(input)
@@ -37,3 +37,5 @@ def conv_arr_dec(arr):
 
 
 print("power consumption:", conv_arr_dec(gamma_bin) * conv_arr_dec(epsilon_bin))
+
+return_value = conv_arr_dec(gamma_bin) * conv_arr_dec(epsilon_bin)
