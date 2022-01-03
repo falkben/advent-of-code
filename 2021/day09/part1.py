@@ -7,8 +7,8 @@ input = """\
 8767896789
 9899965678"""
 
-with open("2021/day09/data.txt") as fh:
-    input = fh.read()
+# with open("2021/day09/data.txt") as fh:
+#     input = fh.read()
 
 linelen = len(input.splitlines()[0])
 rowlen = len(input.splitlines())
@@ -32,3 +32,5 @@ for i in range(hmap.shape[0]):
             print(hmap[i, j])
 
 print(risk_lvl)
+
+return_value = risk_lvl

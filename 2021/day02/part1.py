@@ -8,9 +8,8 @@ forward 2"""
 
 # part 1
 
-with open("2021/day2/data.txt") as inputfh:
-    data = inputfh.read()
-input = data
+# with open("2021/day2/data.txt") as inputfh:
+#     input = inputfh.read()
 
 depth = 0
 hor = 0
@@ -26,3 +25,5 @@ for l in input.splitlines():
         depth -= amount
 
 print(depth * hor)
+
+return_value = depth * hor

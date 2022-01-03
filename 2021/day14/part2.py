@@ -21,8 +21,8 @@ CC -> N
 CN -> C
 """
 
-with open("2021/day14/data.txt") as fh:
-    input = fh.read()
+# with open("2021/day14/data.txt") as fh:
+#     input = fh.read()
 
 template_s, rules_s = input.split("\n\n")
 
@@ -63,3 +63,5 @@ c[template_s[-1]] += 1
 
 # divide our char. counts by 2 because we count each char twice
 print(int(c.most_common()[0][1] / 2 - c.most_common()[-1][1] / 2))
+
+return_value = int(c.most_common()[0][1] / 2 - c.most_common()[-1][1] / 2)

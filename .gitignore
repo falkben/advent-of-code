@@ -127,3 +127,14 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# npm
+node_modules/
+
+# tailwind build output
+site-dist/output.css
+
+# day html output
+pygments.css
+site-dist/**/*.html
+site-dist/**/*.txt

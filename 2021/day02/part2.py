@@ -30,3 +30,5 @@ for l in input.splitlines():
         aim -= amount
 
 print(depth * hor)
+
+return_value = depth * hor

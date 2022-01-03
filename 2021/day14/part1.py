@@ -21,8 +21,8 @@ CC -> N
 CN -> C
 """
 
-with open("2021/day14/data.txt") as fh:
-    input = fh.read()
+# with open("2021/day14/data.txt") as fh:
+#     input = fh.read()
 
 template, rules_s = input.split("\n\n")
 
@@ -58,3 +58,5 @@ print(c.most_common()[0][1] - c.most_common()[-1][1])
 
 # print(template)
 # print(rules)
+
+return_value = c.most_common()[0][1] - c.most_common()[-1][1]

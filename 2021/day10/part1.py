@@ -21,8 +21,8 @@ input = """\
 <{([{{}}[<[[[<>{}]]]>[]]
 """
 
-with open("2021/day10/data.txt") as fh:
-    input = fh.read()
+# with open("2021/day10/data.txt") as fh:
+#     input = fh.read()
 
 scoring = {
     ")": 3,
@@ -62,3 +62,5 @@ for line in input.splitlines():
                 open_chunks_stack.pop()
 
 print(score_total)
+
+return_value = score_total
