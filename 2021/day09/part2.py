@@ -7,8 +7,8 @@ input = """\
 8767896789
 9899965678"""
 
-with open("2021/day09/data.txt") as fh:
-    input = fh.read()
+# with open("2021/day09/data.txt") as fh:
+#     input = fh.read()
 
 linelen = len(input.splitlines()[0])
 rowlen = len(input.splitlines())
@@ -62,3 +62,5 @@ for i, j in low_pts:
 top_basins = sorted(basins, reverse=True)
 
 print(np.prod(top_basins[0:3]))
+
+return_value = np.prod(top_basins[0:3])

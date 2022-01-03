@@ -63,3 +63,4 @@ for draw in draw_nums:
                     # raise (SystemExit)
 
 print(winners[-1])
+return_value = winners[-1]

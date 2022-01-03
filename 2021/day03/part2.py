@@ -18,8 +18,8 @@ input = """\
 00010
 01010"""
 
-with open("2021/day03/data.txt") as fh:
-    input = fh.read()
+# with open("2021/day03/data.txt") as fh:
+#     input = fh.read()
 
 
 c = StringIO(input)
@@ -55,3 +55,5 @@ co2_rating = conv_arr_dec(co2_rows.flatten())
 
 
 print("life support:", oxy_rating * co2_rating)
+
+return_value = oxy_rating * co2_rating

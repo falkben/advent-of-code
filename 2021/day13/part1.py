@@ -24,8 +24,8 @@ fold along y=7
 fold along x=5"""
 
 
-with open("2021/day13/data.txt") as fh:
-    input = fh.read()
+# with open("2021/day13/data.txt") as fh:
+#     input = fh.read()
 
 dot_input, fold_input = input.split("\n\n")
 pair_data = set()
@@ -67,3 +67,5 @@ print(len(folded_pair_data))
 7   1   4 - (7-4)
 8   0   4 - (8-4)
 """
+
+return_value = len(folded_pair_data)

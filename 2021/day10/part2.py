@@ -20,8 +20,8 @@ input = """\
 <{([{{}}[<[[[<>{}]]]>[]]
 """
 
-with open("2021/day10/data.txt") as fh:
-    input = fh.read()
+# with open("2021/day10/data.txt") as fh:
+#     input = fh.read()
 
 scoring = {
     "(": 1,
@@ -68,3 +68,5 @@ for line in input.splitlines():
 
 line_scores.sort()
 print(line_scores[len(line_scores) // 2])
+
+return_value = line_scores[len(line_scores) // 2]

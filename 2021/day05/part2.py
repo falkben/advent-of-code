@@ -12,8 +12,8 @@ input = """\
 0,0 -> 8,8
 5,5 -> 8,2"""
 
-with open("2021/day05/data.txt") as fh:
-    input = fh.read()
+# with open("2021/day05/data.txt") as fh:
+#     input = fh.read()
 
 counter = defaultdict(int)
 
@@ -53,3 +53,5 @@ for item in counter.values():
         intersect_pts += 1
 
 print(intersect_pts)
+
+return_value = intersect_pts

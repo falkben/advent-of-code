@@ -15,3 +15,5 @@ for day in range(80):
     # print(day, ages)
 
 print(ages.shape)
+
+return_value = ages.shape

@@ -27,60 +27,60 @@ b-d
 A-end
 b-end"""
 
-input = """\
-dc-end
-HN-start
-start-kj
-dc-start
-dc-HN
-LN-dc
-HN-end
-kj-sa
-kj-HN
-kj-dc"""
+# input = """\
+# dc-end
+# HN-start
+# start-kj
+# dc-start
+# dc-HN
+# LN-dc
+# HN-end
+# kj-sa
+# kj-HN
+# kj-dc"""
 
-input = """\
-fs-end
-he-DX
-fs-he
-start-DX
-pj-DX
-end-zg
-zg-sl
-zg-pj
-pj-he
-RW-he
-fs-DX
-pj-RW
-zg-RW
-start-pj
-he-WI
-zg-he
-pj-fs
-start-RW"""
+# input = """\
+# fs-end
+# he-DX
+# fs-he
+# start-DX
+# pj-DX
+# end-zg
+# zg-sl
+# zg-pj
+# pj-he
+# RW-he
+# fs-DX
+# pj-RW
+# zg-RW
+# start-pj
+# he-WI
+# zg-he
+# pj-fs
+# start-RW"""
 
-input = """\
-ma-start
-YZ-rv
-MP-rv
-vc-MP
-QD-kj
-rv-kj
-ma-rv
-YZ-zd
-UB-rv
-MP-xe
-start-MP
-zd-end
-ma-UB
-ma-MP
-UB-xe
-end-UB
-ju-MP
-ma-xe
-zd-UB
-start-xe
-YZ-end"""
+# input = """\
+# ma-start
+# YZ-rv
+# MP-rv
+# vc-MP
+# QD-kj
+# rv-kj
+# ma-rv
+# YZ-zd
+# UB-rv
+# MP-xe
+# start-MP
+# zd-end
+# ma-UB
+# ma-MP
+# UB-xe
+# end-UB
+# ju-MP
+# ma-xe
+# zd-UB
+# start-xe
+# YZ-end"""
 
 graph = defaultdict(set)
 for line in input.splitlines():
@@ -125,3 +125,5 @@ def traverse_graph():
 paths = traverse_graph()
 # print(sorted(paths))
 print(len(paths))
+
+return_value = len(paths)
