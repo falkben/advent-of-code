@@ -1,0 +1,1 @@
+# input = open("2022/day09/data.txt")

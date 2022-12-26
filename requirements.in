@@ -2,3 +2,5 @@ numpy
 rich
 jinja2
 pygments
+requests
+python-dotenv
