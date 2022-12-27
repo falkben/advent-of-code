@@ -44,7 +44,7 @@ def main(argv: Sequence[str] | None = None):
     for part in ["part1.py", "part2.py"]:
         if not (p / part).exists():
             with open((p / part), mode="w") as dayfile:
-                dayfile.write(f'# input = open("{p}/data.txt")')
+                dayfile.write(f'# input = open("{p}/data.txt").read()')
             print(f"Created path {p / part}")
         else:
             print(f"Path {p / part} already found, exiting")
