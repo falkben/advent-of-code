@@ -52,6 +52,7 @@ def main(argv: Sequence[str] | None = None):
     input = download_input(year, args.day)
     with open(p / "data.txt", mode="w") as input_file:
         input_file.write(input)
+    print(f"Downloaded input {p / 'data.txt'}")
 
     return 0
 
