@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="../../output.css" rel="stylesheet" />
+    <link href="../../pygments.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.18.1/full/pyodide.js"></script>
+  </head>
+  <body>
+    <div class="p-2">
+      <div class="text-lg"><a href="../../">Index</a></div>
+      <h1 class="text-2xl font-bold underline">
+          Day 10
+      </h1>
+      <h2 class="text-xl italic">
+        part1
+      </h2>
+      <div>AoC <a href="https://adventofcode.com/2022/day/10" target="_blank">
+        link</a>
+      </div>
+      <div class="flex space-x-2 mt-3">
+        <div class="w-2/3 overflow-x-auto"><div class="highlight"><pre><span></span><span class="nb">input</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">addx 15</span>
+<span class="s2">addx -11</span>
+<span class="s2">addx 6</span>
+<span class="s2">addx -3</span>
+<span class="s2">addx 5</span>
+<span class="s2">addx -1</span>
+<span class="s2">addx -8</span>
+<span class="s2">addx 13</span>
+<span class="s2">addx 4</span>
+<span class="s2">noop</span>
+<span class="s2">addx -1</span>
+<span class="s2">addx 5</span>
+<span class="s2">addx -1</span>
+<span class="s2">addx 5</span>
+<span class="s2">addx -1</span>
+<span class="s2">addx 5</span>
+<span class="s2">addx -1</span>
+<span class="s2">addx 5</span>
+<span class="s2">addx -1</span>
+<span class="s2">addx -35</span>
+<span class="s2">addx 1</span>
+<span class="s2">addx 24</span>
+<span class="s2">addx -19</span>
+<span class="s2">addx 1</span>
+<span class="s2">addx 16</span>
+<span class="s2">addx -11</span>
+<span class="s2">noop</span>
+<span class="s2">noop</span>
+<span class="s2">addx 21</span>
+<span class="s2">addx -15</span>
+<span class="s2">noop</span>
+<span class="s2">noop</span>
+<span class="s2">addx -3</span>
+<span class="s2">addx 9</span>
+<span class="s2">addx 1</span>
+<span class="s2">addx -3</span>
+<span class="s2">addx 8</span>
+<span class="s2">addx 1</span>
+<span class="s2">addx 5</span>
+<span class="s2">noop</span>
+<span class="s2">noop</span>
+<span class="s2">noop</span>
+<span class="s2">noop</span>
+<span class="s2">noop</span>
+<span class="s2">addx -36</span>
+<span class="s2">noop</span>
+<span class="s2">addx 1</span>
+<span class="s2">addx 7</span>
+<span class="s2">noop</span>
+<span class="s2">noop</span>
+<span class="s2">noop</span>
+<span class="s2">addx 2</span>
+<span class="s2">addx 6</span>
+<span class="s2">noop</span>
+<span class="s2">noop</span>
+<span class="s2">noop</span>
+<span class="s2">noop</span>
+<span class="s2">noop</span>
+<span class="s2">addx 1</span>
+<span class="s2">noop</span>
+<span class="s2">noop</span>
+<span class="s2">addx 7</span>
+<span class="s2">addx 1</span>
+<span class="s2">noop</span>
+<span class="s2">addx -13</span>
+<span class="s2">addx 13</span>
+<span class="s2">addx 7</span>
+<span class="s2">noop</span>
+<span class="s2">addx 1</span>
+<span class="s2">addx -33</span>
+<span class="s2">noop</span>
+<span class="s2">noop</span>
+<span class="s2">noop</span>
+<span class="s2">addx 2</span>
+<span class="s2">noop</span>
+<span class="s2">noop</span>
+<span class="s2">noop</span>
+<span class="s2">addx 8</span>
+<span class="s2">noop</span>
+<span class="s2">addx -1</span>
+<span class="s2">addx 2</span>
+<span class="s2">addx 1</span>
+<span class="s2">noop</span>
+<span class="s2">addx 17</span>
+<span class="s2">addx -9</span>
+<span class="s2">addx 1</span>
+<span class="s2">addx 1</span>
+<span class="s2">addx -3</span>
+<span class="s2">addx 11</span>
+<span class="s2">noop</span>
+<span class="s2">noop</span>
+<span class="s2">addx 1</span>
+<span class="s2">noop</span>
+<span class="s2">addx 1</span>
+<span class="s2">noop</span>
+<span class="s2">noop</span>
+<span class="s2">addx -13</span>
+<span class="s2">addx -19</span>
+<span class="s2">addx 1</span>
+<span class="s2">addx 3</span>
+<span class="s2">addx 26</span>
+<span class="s2">addx -30</span>
+<span class="s2">addx 12</span>
+<span class="s2">addx -1</span>
+<span class="s2">addx 3</span>
+<span class="s2">addx 1</span>
+<span class="s2">noop</span>
+<span class="s2">noop</span>
+<span class="s2">noop</span>
+<span class="s2">addx -9</span>
+<span class="s2">addx 18</span>
+<span class="s2">addx 1</span>
+<span class="s2">addx 2</span>
+<span class="s2">noop</span>
+<span class="s2">noop</span>
+<span class="s2">addx 9</span>
+<span class="s2">noop</span>
+<span class="s2">noop</span>
+<span class="s2">noop</span>
+<span class="s2">addx -1</span>
+<span class="s2">addx 2</span>
+<span class="s2">addx -37</span>
+<span class="s2">addx 1</span>
+<span class="s2">addx 3</span>
+<span class="s2">noop</span>
+<span class="s2">addx 15</span>
+<span class="s2">addx -21</span>
+<span class="s2">addx 22</span>
+<span class="s2">addx -6</span>
+<span class="s2">addx 1</span>
+<span class="s2">noop</span>
+<span class="s2">addx 2</span>
+<span class="s2">addx 1</span>
+<span class="s2">noop</span>
+<span class="s2">addx -10</span>
+<span class="s2">noop</span>
+<span class="s2">noop</span>
+<span class="s2">addx 20</span>
+<span class="s2">addx 1</span>
+<span class="s2">addx 2</span>
+<span class="s2">addx 2</span>
+<span class="s2">addx -6</span>
+<span class="s2">addx -11</span>
+<span class="s2">noop</span>
+<span class="s2">noop</span>
+<span class="s2">noop</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="nb">input</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;2022/day10/data.txt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+
+<span class="n">cycles</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">cur_sum</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">check_cycles</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">221</span><span class="p">,</span> <span class="mi">40</span><span class="p">))</span>
+<span class="n">signal_strgths</span> <span class="o">=</span> <span class="p">[]</span>
+
+
+<span class="k">def</span> <span class="nf">add_cycle</span><span class="p">():</span>
+    <span class="k">global</span> <span class="n">cycles</span>
+    <span class="k">global</span> <span class="n">check_cycles</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">check_cycles</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">cycles</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">cycles</span> <span class="o">&gt;=</span> <span class="n">check_cycles</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="n">print_val</span> <span class="o">=</span> <span class="n">cycles</span> <span class="o">*</span> <span class="n">cur_sum</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cycles</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">print_val</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="n">check_cycles</span> <span class="o">=</span> <span class="n">check_cycles</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+            <span class="n">signal_strgths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">print_val</span><span class="p">)</span>
+
+
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">input</span><span class="o">.</span><span class="n">splitlines</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">line</span> <span class="o">==</span> <span class="s2">&quot;noop&quot;</span><span class="p">:</span>
+        <span class="n">add_cycle</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">add_cycle</span><span class="p">()</span>
+        <span class="n">add_cycle</span><span class="p">()</span>
+        <span class="n">cur_sum</span> <span class="o">+=</span> <span class="n">val</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">signal_strgths</span><span class="p">))</span>
+</pre></div>
+</div>
+        <div class="w-1/3">
+          <textarea class="hidden" id="code" type="text">input = """\
+addx 15
+addx -11
+addx 6
+addx -3
+addx 5
+addx -1
+addx -8
+addx 13
+addx 4
+noop
+addx -1
+addx 5
+addx -1
+addx 5
+addx -1
+addx 5
+addx -1
+addx 5
+addx -1
+addx -35
+addx 1
+addx 24
+addx -19
+addx 1
+addx 16
+addx -11
+noop
+noop
+addx 21
+addx -15
+noop
+noop
+addx -3
+addx 9
+addx 1
+addx -3
+addx 8
+addx 1
+addx 5
+noop
+noop
+noop
+noop
+noop
+addx -36
+noop
+addx 1
+addx 7
+noop
+noop
+noop
+addx 2
+addx 6
+noop
+noop
+noop
+noop
+noop
+addx 1
+noop
+noop
+addx 7
+addx 1
+noop
+addx -13
+addx 13
+addx 7
+noop
+addx 1
+addx -33
+noop
+noop
+noop
+addx 2
+noop
+noop
+noop
+addx 8
+noop
+addx -1
+addx 2
+addx 1
+noop
+addx 17
+addx -9
+addx 1
+addx 1
+addx -3
+addx 11
+noop
+noop
+addx 1
+noop
+addx 1
+noop
+noop
+addx -13
+addx -19
+addx 1
+addx 3
+addx 26
+addx -30
+addx 12
+addx -1
+addx 3
+addx 1
+noop
+noop
+noop
+addx -9
+addx 18
+addx 1
+addx 2
+noop
+noop
+addx 9
+noop
+noop
+noop
+addx -1
+addx 2
+addx -37
+addx 1
+addx 3
+noop
+addx 15
+addx -21
+addx 22
+addx -6
+addx 1
+noop
+addx 2
+addx 1
+noop
+addx -10
+noop
+noop
+addx 20
+addx 1
+addx 2
+addx 2
+addx -6
+addx -11
+noop
+noop
+noop
+"""
+input = open("2022/day10/data.txt").read()
+
+
+cycles = 0
+cur_sum = 1
+check_cycles = list(range(20, 221, 40))
+signal_strgths = []
+
+
+def add_cycle():
+    global cycles
+    global check_cycles
+
+    if len(check_cycles) > 0:
+        cycles += 1
+        if cycles >= check_cycles[0]:
+            print_val = cycles * cur_sum
+
+            print(f"{cycles}: {print_val}")
+
+            check_cycles = check_cycles[1:]
+            signal_strgths.append(print_val)
+
+
+for line in input.splitlines():
+    if line == "noop":
+        add_cycle()
+    else:
+        val = int(line.split()[1])
+        add_cycle()
+        add_cycle()
+        cur_sum += val
+
+print(sum(signal_strgths))
+</textarea>
+          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            onclick="evaluatePython()">Run</button>
+          <br />
+          <br />
+          <div>Output:</div>
+          <textarea id="output" style="width: 100%;" rows="6" disabled></textarea>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const output = document.getElementById("output");
+      const code = document.getElementById("code");
+
+      function addToOutput(s) {
+        output.value += s + "\n";
+      }
+
+      output.value = "Initializing...\n";
+      // init Pyodide
+      async function main() {
+        let pyodide = await loadPyodide({
+          indexURL: "https://cdn.jsdelivr.net/pyodide/v0.18.1/full/",
+        });
+        output.value += "Ready!\n";
+        return pyodide;
+      }
+      let pyodideReadyPromise = main();
+
+      async function evaluatePython() {
+        let pyodide = await pyodideReadyPromise;
+        try {
+          await pyodide.loadPackagesFromImports(code.value);
+          pyodide.runPython(code.value);
+          addToOutput(pyodide.globals.get('return_value'));
+        } catch (err) {
+          addToOutput(err);
+        }
+      }
+    </script>
+  </body>
+</html>
