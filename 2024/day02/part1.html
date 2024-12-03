@@ -44,8 +44,8 @@
     <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">d</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">line_diff</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">all</span><span class="p">(</span><span class="n">d</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">line_diff</span><span class="p">):</span>
         <span class="n">safe</span> <span class="o">+=</span> <span class="mi">1</span>
 
-
-<span class="nb">print</span><span class="p">(</span><span class="n">safe</span><span class="p">)</span>
+<span class="n">return_value</span> <span class="o">=</span> <span class="n">safe</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">return_value</span><span class="p">)</span>
 </pre></div>
 </div>
         <div class="w-1/3">
@@ -73,8 +73,8 @@ for line in data.splitlines():
     if all(d > 0 for d in line_diff) or all(d < 0 for d in line_diff):
         safe += 1
 
-
-print(safe)
+return_value = safe
+print(return_value)
 </textarea>
           <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             onclick="evaluatePython()">Run</button>
