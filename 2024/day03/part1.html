@@ -26,7 +26,7 @@
 <span class="s2">xmul(2,4)%&amp;mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))</span>
 <span class="s2">&quot;&quot;&quot;</span>
 
-<span class="nb">input</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;2024/day03/data.txt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="c1"># input = open(&quot;2024/day03/data.txt&quot;).read()</span>
 
 <span class="n">return_data</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;mul\(\d+,\d+\)&quot;</span><span class="p">,</span> <span class="nb">input</span><span class="p">)</span>
@@ -46,7 +46,7 @@ input = """\
 xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))
 """
 
-input = open("2024/day03/data.txt").read()
+# input = open("2024/day03/data.txt").read()
 
 return_data = 0
 m = re.findall(r"mul\(\d+,\d+\)", input)
