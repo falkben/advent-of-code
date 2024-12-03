@@ -24,4 +24,6 @@ sim_score = 0
 for l1 in list1:
     sim_score += l1 * list2.count(l1)
 
-print(sim_score)
+
+return_value = sim_score
+print(return_value)

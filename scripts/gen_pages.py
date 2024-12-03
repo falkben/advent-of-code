@@ -4,12 +4,11 @@
 
 from __future__ import annotations
 
-import shutil
 from collections import defaultdict
 from pathlib import Path
 from typing import Optional, Sequence
 
-from jinja2 import Environment, FileSystemLoader, select_autoescape
+from jinja2 import Environment, FileSystemLoader
 from pygments import highlight
 from pygments.formatters import HtmlFormatter
 from pygments.lexers import PythonLexer
@@ -22,7 +21,6 @@ OUTPUT_DIR = "site-dist/"
 
 
 def main(argv: Optional[Sequence[str]] = None) -> int:
-
     # generate the pygments html
     pygments_css = HtmlFormatter().get_style_defs(".highlight")
     with open("site-dist/pygments.css", "w") as fh:

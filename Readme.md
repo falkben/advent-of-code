@@ -1,8 +1,6 @@
 # Advent of Code
 
-## 2021
-
-<https://adventofcode.com/2021/>
+<https://adventofcode.com/>
 
 ## Website
 
@@ -12,7 +10,7 @@ Index.html located in [site-dist](site-dist/).
 
 Pages for each day are generated
 
-```cmd
+```sh
 python scripts/gen_pages.py
 ```
 
@@ -20,24 +18,24 @@ python scripts/gen_pages.py
 
 Get tailwind:
 
-```cmd
+```sh
 npm install
 ```
 
 Build css and keep updated:
 
-```cmd
+```sh
 npx tailwindcss -i ./site-src/input.css -o ./site-dist/output.css --watch
 ```
 
 or for publishing:
 
-```cmd
+```sh
 npm run build-css
 ```
 
 ### Local dev
 
-```cmd
+```sh
 python -m http.server -d site-dist
 ```

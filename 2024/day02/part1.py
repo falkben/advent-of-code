@@ -22,5 +22,5 @@ for line in data.splitlines():
     if all(d > 0 for d in line_diff) or all(d < 0 for d in line_diff):
         safe += 1
 
-
-print(safe)
+return_value = safe
+print(return_value)

@@ -21,4 +21,7 @@ list1.sort()
 list2.sort()
 
 l12diff = [abs(l1 - l2) for l1, l2 in zip(list1, list2)]
-print(sum(l12diff))
+
+
+return_value = l12diff
+print(return_value)

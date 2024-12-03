@@ -45,4 +45,5 @@ for line in data.splitlines():
     safe.append(False)
 
 
-print(sum(safe))
+return_value = sum(safe)
+print(return_value)

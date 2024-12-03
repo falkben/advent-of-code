@@ -27,7 +27,6 @@ def download_input(year: str, day: int):
 
 
 def main(argv: Sequence[str] | None = None):
-
     parser = argparse.ArgumentParser()
     parser.add_argument("-y", "--year", default=None)
     parser.add_argument("day", type=int)
@@ -44,7 +43,12 @@ def main(argv: Sequence[str] | None = None):
     for part in ["part1.py", "part2.py"]:
         if not (p / part).exists():
             with open((p / part), mode="w") as dayfile:
-                dayfile.write(f'# input = open("{p}/data.txt").read()')
+                dayfile.write(f"""\
+# input = open("{p}/data.txt").read()
+
+# return_data = ...
+# print(return_data)
+""")
             print(f"Created path {p / part}")
         else:
             print(f"Path {p / part} already found, exiting")
