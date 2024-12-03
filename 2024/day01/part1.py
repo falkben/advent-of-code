@@ -7,7 +7,7 @@ data = """\
 3   3
 """
 
-data = open("2024/day01/data.txt").read()
+# data = open("2024/day01/data.txt").read()
 
 
 list1 = []
