@@ -138,3 +138,5 @@ site-dist/output.css
 pygments.css
 site-dist/**/*.html
 site-dist/**/*.txt
+
+data.txt
