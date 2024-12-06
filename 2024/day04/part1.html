@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="../../output.css" rel="stylesheet" />
+    <link href="../../pygments.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.18.1/full/pyodide.js"></script>
+  </head>
+  <body>
+    <div class="p-2">
+      <div class="text-lg"><a href="../../">Index</a></div>
+      <h1 class="text-2xl font-bold underline">
+          Day 04
+      </h1>
+      <h2 class="text-xl italic">
+        part1
+      </h2>
+      <div>AoC <a href="https://adventofcode.com/2024/day/4" target="_blank">
+        link</a>
+      </div>
+      <div class="flex space-x-2 mt-3">
+        <div class="w-2/3 overflow-x-auto"><div class="highlight"><pre><span></span><span class="nb">input</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">MMMSXXMASM</span>
+<span class="s2">MSAMXMSMSA</span>
+<span class="s2">AMXSXMAAMM</span>
+<span class="s2">MSAMASMSMX</span>
+<span class="s2">XMASAMXAMM</span>
+<span class="s2">XXAMMXXAMA</span>
+<span class="s2">SMSMSASXSS</span>
+<span class="s2">SAXAMASAAA</span>
+<span class="s2">MAMMMXMMMM</span>
+<span class="s2">MXMXAXMASX</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="c1"># input = open(&quot;2024/day04/data.txt&quot;).read()</span>
+
+
+<span class="k">def</span> <span class="nf">find_xmax</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">splitlines</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)):</span>
+            <span class="n">substr</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="nb">min</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">4</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">))]</span>
+            <span class="n">count</span> <span class="o">+=</span> <span class="n">substr</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;XMAS&quot;</span><span class="p">,</span> <span class="s2">&quot;SAMX&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">count</span>
+
+
+<span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">total</span> <span class="o">+=</span> <span class="n">find_xmax</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+
+<span class="n">cols</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">chars</span><span class="p">)</span> <span class="k">for</span> <span class="n">chars</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="nb">input</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()))</span>
+<span class="n">total</span> <span class="o">+=</span> <span class="n">find_xmax</span><span class="p">(</span><span class="n">cols</span><span class="p">)</span>
+
+
+<span class="n">rows</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">input</span><span class="o">.</span><span class="n">splitlines</span><span class="p">())</span>
+<span class="n">cols</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">cols</span><span class="o">.</span><span class="n">splitlines</span><span class="p">())</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">input</span><span class="o">.</span><span class="n">splitlines</span><span class="p">())</span>
+<span class="n">mat</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">rows</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cols</span><span class="p">):</span>
+        <span class="n">mat</span><span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">y</span> <span class="o">*</span> <span class="n">cols</span> <span class="o">+</span> <span class="n">x</span><span class="p">]</span>
+        <span class="n">n</span> <span class="o">+=</span> <span class="mi">1</span>
+
+
+<span class="c1"># creating diag</span>
+<span class="n">diagxy</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+<span class="c1"># 9,0;\n</span>
+<span class="c1"># 8,0;9,1\n</span>
+<span class="c1"># 7,0;8,1;9,2\n</span>
+<span class="c1"># ...</span>
+<span class="c1"># 0,0;1,1;2,2...9,9\n</span>
+<span class="c1"># ...</span>
+<span class="c1"># 0,9;\n</span>
+
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cols</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">xy</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">rows</span> <span class="o">-</span> <span class="n">x</span><span class="p">):</span>
+        <span class="c1"># print(x + xy, xy)</span>
+        <span class="n">diagxy</span> <span class="o">+=</span> <span class="n">mat</span><span class="p">[</span><span class="n">x</span> <span class="o">+</span> <span class="n">xy</span><span class="p">,</span> <span class="n">xy</span><span class="p">]</span>
+    <span class="n">diagxy</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="c1"># print()</span>
+
+<span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">rows</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">xy</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">rows</span> <span class="o">-</span> <span class="n">y</span><span class="p">):</span>
+        <span class="c1"># print(xy, xy + y)</span>
+        <span class="n">diagxy</span> <span class="o">+=</span> <span class="n">mat</span><span class="p">[</span><span class="n">xy</span><span class="p">,</span> <span class="n">xy</span> <span class="o">+</span> <span class="n">y</span><span class="p">]</span>
+    <span class="n">diagxy</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="c1"># print()</span>
+
+
+<span class="n">total</span> <span class="o">+=</span> <span class="n">find_xmax</span><span class="p">(</span><span class="n">diagxy</span><span class="p">)</span>
+
+<span class="c1"># 0,0;\n</span>
+<span class="c1"># 0,1;1,0\n</span>
+<span class="c1"># 0,2;1,1;2,0\n</span>
+<span class="c1"># ...</span>
+<span class="c1"># 0,9;1,8;2,7...9,0\n</span>
+<span class="c1"># 1,9;2,8;3,7...9,1\n</span>
+<span class="c1"># ...</span>
+<span class="c1"># 9,9;\n</span>
+
+<span class="n">diagrev</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cols</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">diagrev</span> <span class="o">+=</span> <span class="n">mat</span><span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">y</span><span class="p">),</span> <span class="n">y</span><span class="p">]</span>
+        <span class="c1"># print(abs(x - y), y)</span>
+    <span class="c1"># print()</span>
+    <span class="n">diagrev</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">cols</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">rows</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)):</span>
+        <span class="c1"># print(x + i, y)</span>
+        <span class="n">diagrev</span> <span class="o">+=</span> <span class="n">mat</span><span class="p">[</span><span class="n">x</span> <span class="o">+</span> <span class="n">i</span><span class="p">,</span> <span class="n">y</span><span class="p">]</span>
+    <span class="n">diagrev</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="c1"># print()</span>
+
+<span class="n">total</span> <span class="o">+=</span> <span class="n">find_xmax</span><span class="p">(</span><span class="n">diagrev</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">total</span><span class="p">)</span>
+
+<span class="c1"># return_data = ...</span>
+<span class="c1"># print(return_data)</span>
+</pre></div>
+</div>
+        <div class="w-1/3">
+          <textarea class="hidden" id="code" type="text">input = """\
+MMMSXXMASM
+MSAMXMSMSA
+AMXSXMAAMM
+MSAMASMSMX
+XMASAMXAMM
+XXAMMXXAMA
+SMSMSASXSS
+SAXAMASAAA
+MAMMMXMMMM
+MXMXAXMASX
+"""
+
+# input = open("2024/day04/data.txt").read()
+
+
+def find_xmax(data):
+    count = 0
+    for line in data.splitlines():
+        for i in range(len(line)):
+            substr = line[i : min(i + 4, len(line))]
+            count += substr in ("XMAS", "SAMX")
+    return count
+
+
+total = 0
+total += find_xmax(input)
+
+cols = "\n".join("".join(chars) for chars in zip(*input.splitlines()))
+total += find_xmax(cols)
+
+
+rows = len(input.splitlines())
+cols = len(cols.splitlines())
+
+data = "".join(input.splitlines())
+mat = {}
+n = 0
+for y in range(rows):
+    for x in range(cols):
+        mat[x, y] = data[y * cols + x]
+        n += 1
+
+
+# creating diag
+diagxy = ""
+
+# 9,0;\n
+# 8,0;9,1\n
+# 7,0;8,1;9,2\n
+# ...
+# 0,0;1,1;2,2...9,9\n
+# ...
+# 0,9;\n
+
+for x in range(cols, 0, -1):
+    for xy in range(rows - x):
+        # print(x + xy, xy)
+        diagxy += mat[x + xy, xy]
+    diagxy += "\n"
+    # print()
+
+for y in range(rows):
+    for xy in range(rows - y):
+        # print(xy, xy + y)
+        diagxy += mat[xy, xy + y]
+    diagxy += "\n"
+    # print()
+
+
+total += find_xmax(diagxy)
+
+# 0,0;\n
+# 0,1;1,0\n
+# 0,2;1,1;2,0\n
+# ...
+# 0,9;1,8;2,7...9,0\n
+# 1,9;2,8;3,7...9,1\n
+# ...
+# 9,9;\n
+
+diagrev = ""
+for x in range(cols):
+    for y in range(x, -1, -1):
+        diagrev += mat[abs(x - y), y]
+        # print(abs(x - y), y)
+    # print()
+    diagrev += "\n"
+
+
+for x in range(1, cols):
+    for i, y in enumerate(range(rows - 1, x - 1, -1)):
+        # print(x + i, y)
+        diagrev += mat[x + i, y]
+    diagrev += "\n"
+    # print()
+
+total += find_xmax(diagrev)
+print(total)
+
+# return_data = ...
+# print(return_data)
+</textarea>
+          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            onclick="evaluatePython()">Run</button>
+          <br />
+          <br />
+          <div>Output:</div>
+          <textarea id="output" style="width: 100%;" rows="6" disabled></textarea>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const output = document.getElementById("output");
+      const code = document.getElementById("code");
+
+      function addToOutput(s) {
+        output.value += s + "\n";
+      }
+
+      output.value = "Initializing...\n";
+      // init Pyodide
+      async function main() {
+        let pyodide = await loadPyodide({
+          indexURL: "https://cdn.jsdelivr.net/pyodide/v0.18.1/full/",
+        });
+        output.value += "Ready!\n";
+        return pyodide;
+      }
+      let pyodideReadyPromise = main();
+
+      async function evaluatePython() {
+        let pyodide = await pyodideReadyPromise;
+        try {
+          await pyodide.loadPackagesFromImports(code.value);
+          pyodide.runPython(code.value);
+          addToOutput(pyodide.globals.get('return_value'));
+        } catch (err) {
+          addToOutput(err);
+        }
+      }
+    </script>
+  </body>
+</html>
