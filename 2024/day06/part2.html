@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="../../output.css" rel="stylesheet" />
+    <link href="../../pygments.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.18.1/full/pyodide.js"></script>
+  </head>
+  <body>
+    <div class="p-2">
+      <div class="text-lg"><a href="../../">Index</a></div>
+      <h1 class="text-2xl font-bold underline">
+          Day 06
+      </h1>
+      <h2 class="text-xl italic">
+        part2
+      </h2>
+      <div>AoC <a href="https://adventofcode.com/2024/day/6" target="_blank">
+        link</a>
+      </div>
+      <div class="flex space-x-2 mt-3">
+        <div class="w-2/3 overflow-x-auto"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+
+<span class="nb">input</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">....#.....</span>
+<span class="s2">.........#</span>
+<span class="s2">..........</span>
+<span class="s2">..#.......</span>
+<span class="s2">.......#..</span>
+<span class="s2">..........</span>
+<span class="s2">.#..^.....</span>
+<span class="s2">........#.</span>
+<span class="s2">#.........</span>
+<span class="s2">......#...</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="nb">input</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;2024/day06/data.txt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="n">lab</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">y</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">input</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()):</span>
+    <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">pos</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
+        <span class="n">lab</span><span class="p">[</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">pos</span>
+        <span class="k">if</span> <span class="n">pos</span> <span class="o">==</span> <span class="s2">&quot;^&quot;</span><span class="p">:</span>
+            <span class="n">startyx</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+
+<span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">yy</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nb">input</span><span class="o">.</span><span class="n">splitlines</span><span class="p">())):</span>
+    <span class="k">for</span> <span class="n">xx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">lab</span><span class="p">[(</span><span class="n">yy</span><span class="p">,</span> <span class="n">xx</span><span class="p">)]</span> <span class="o">==</span> <span class="s2">&quot;#&quot;</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="n">seen</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="n">y</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">startyx</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
+                <span class="n">total</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">break</span>
+
+            <span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">d</span><span class="p">))</span>
+
+            <span class="n">dy</span><span class="p">,</span> <span class="n">dx</span> <span class="o">=</span> <span class="p">[(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)][</span><span class="n">d</span><span class="p">]</span>
+            <span class="n">nexty</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">dy</span>
+            <span class="n">nextx</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">dx</span>
+
+            <span class="k">if</span> <span class="n">lab</span><span class="p">[</span><span class="n">nexty</span><span class="p">,</span> <span class="n">nextx</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="k">if</span> <span class="n">lab</span><span class="p">[</span><span class="n">nexty</span><span class="p">,</span> <span class="n">nextx</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;#&quot;</span> <span class="ow">or</span> <span class="n">nexty</span> <span class="o">==</span> <span class="n">yy</span> <span class="ow">and</span> <span class="n">nextx</span> <span class="o">==</span> <span class="n">xx</span><span class="p">:</span>
+                <span class="n">d</span> <span class="o">=</span> <span class="p">(</span><span class="n">d</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">4</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">y</span> <span class="o">=</span> <span class="n">nexty</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="n">nextx</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">total</span><span class="p">)</span>
+
+
+<span class="c1"># for y, row in enumerate(input.splitlines()):</span>
+<span class="c1">#     for x, pos in enumerate(row):</span>
+<span class="c1">#         print(lab[y, x], end=&quot;&quot;)</span>
+<span class="c1">#     print()</span>
+</pre></div>
+</div>
+        <div class="w-1/3">
+          <textarea class="hidden" id="code" type="text">from collections import defaultdict
+
+input = """\
+....#.....
+.........#
+..........
+..#.......
+.......#..
+..........
+.#..^.....
+........#.
+#.........
+......#...
+"""
+
+input = open("2024/day06/data.txt").read()
+
+lab = defaultdict(lambda: "")
+for y, row in enumerate(input.splitlines()):
+    for x, pos in enumerate(row):
+        lab[y, x] = pos
+        if pos == "^":
+            startyx = (y, x)
+
+total = 0
+for yy in range(len(input.splitlines())):
+    for xx in range(len(row)):
+        if lab[(yy, xx)] == "#":
+            continue
+
+        seen = set()
+        y, x = startyx
+        d = 0
+        while True:
+            if (y, x, d) in seen:
+                total += 1
+                break
+
+            seen.add((y, x, d))
+
+            dy, dx = [(-1, 0), (0, 1), (1, 0), (0, -1)][d]
+            nexty = y + dy
+            nextx = x + dx
+
+            if lab[nexty, nextx] == "":
+                break
+            if lab[nexty, nextx] == "#" or nexty == yy and nextx == xx:
+                d = (d + 1) % 4
+            else:
+                y = nexty
+                x = nextx
+
+
+print(total)
+
+
+# for y, row in enumerate(input.splitlines()):
+#     for x, pos in enumerate(row):
+#         print(lab[y, x], end="")
+#     print()
+</textarea>
+          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            onclick="evaluatePython()">Run</button>
+          <br />
+          <br />
+          <div>Output:</div>
+          <textarea id="output" style="width: 100%;" rows="6" disabled></textarea>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const output = document.getElementById("output");
+      const code = document.getElementById("code");
+
+      function addToOutput(s) {
+        output.value += s + "\n";
+      }
+
+      output.value = "Initializing...\n";
+      // init Pyodide
+      async function main() {
+        let pyodide = await loadPyodide({
+          indexURL: "https://cdn.jsdelivr.net/pyodide/v0.18.1/full/",
+        });
+        output.value += "Ready!\n";
+        return pyodide;
+      }
+      let pyodideReadyPromise = main();
+
+      async function evaluatePython() {
+        let pyodide = await pyodideReadyPromise;
+        try {
+          await pyodide.loadPackagesFromImports(code.value);
+          pyodide.runPython(code.value);
+          addToOutput(pyodide.globals.get('return_value'));
+        } catch (err) {
+          addToOutput(err);
+        }
+      }
+    </script>
+  </body>
+</html>
