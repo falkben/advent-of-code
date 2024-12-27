@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="../../output.css" rel="stylesheet" />
+    <link href="../../pygments.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.18.1/full/pyodide.js"></script>
+  </head>
+  <body>
+    <div class="p-2">
+      <div class="text-lg"><a href="../../">Index</a></div>
+      <h1 class="text-2xl font-bold underline">
+          Day 09
+      </h1>
+      <h2 class="text-xl italic">
+        part2
+      </h2>
+      <div>AoC <a href="https://adventofcode.com/2024/day/9" target="_blank">
+        link</a>
+      </div>
+      <div class="flex space-x-2 mt-3">
+        <div class="w-2/3 overflow-x-auto"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">deque</span>
+
+<span class="nb">input</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">2333133121414131402</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="c1"># input = open(&quot;2024/day09/data.txt&quot;).read()</span>
+
+<span class="n">disk</span> <span class="o">=</span> <span class="n">deque</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">input</span><span class="o">.</span><span class="n">strip</span><span class="p">()):</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">disk</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">i</span> <span class="o">//</span> <span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="nb">int</span><span class="p">(</span><span class="n">ch</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">disk</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="s2">&quot;.&quot;</span> <span class="o">*</span> <span class="nb">int</span><span class="p">(</span><span class="n">ch</span><span class="p">))</span>
+
+<span class="c1"># 00...111...2...333.44.5555.6666.777.888899</span>
+<span class="c1"># print(&quot;&quot;.join(map(str, disk)))</span>
+
+<span class="n">orig</span> <span class="o">=</span> <span class="n">disk</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">orig</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+<span class="n">i</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">first_open_idx</span> <span class="o">=</span> <span class="n">disk</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="c1"># &quot;.&quot; not found</span>
+        <span class="k">break</span>
+
+    <span class="n">start_i</span> <span class="o">=</span> <span class="n">i</span>
+    <span class="n">f_id</span> <span class="o">=</span> <span class="n">disk</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="k">while</span> <span class="n">disk</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">f_id</span><span class="p">:</span>
+        <span class="n">i</span> <span class="o">-=</span> <span class="mi">1</span>
+
+    <span class="n">block_size</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="n">start_i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">empty_ct</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">while</span> <span class="n">empty_ct</span> <span class="o">&lt;</span> <span class="n">block_size</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">disk</span><span class="p">[</span><span class="n">first_open_idx</span> <span class="o">+</span> <span class="n">empty_ct</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;.&quot;</span><span class="p">:</span>
+            <span class="n">empty_ct</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">first_open_idx</span> <span class="o">=</span> <span class="n">disk</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="n">first_open_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="n">first_open_idx</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">break</span>
+            <span class="n">empty_ct</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="k">if</span> <span class="n">first_open_idx</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">first_open_idx</span><span class="p">,</span> <span class="n">first_open_idx</span> <span class="o">+</span> <span class="n">block_size</span><span class="p">):</span>
+            <span class="n">disk</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="n">f_id</span>
+
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">start_i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">disk</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span>
+
+    <span class="n">i</span> <span class="o">-=</span> <span class="mi">1</span>
+    <span class="k">while</span> <span class="n">disk</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;.&quot;</span> <span class="ow">or</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">i</span> <span class="o">-=</span> <span class="mi">1</span>
+
+    <span class="c1"># print(&quot;&quot;.join(map(str, disk)))</span>
+
+
+<span class="c1"># 00992111777.44.333....5555.6666.....8888..</span>
+<span class="c1"># print(&quot;&quot;.join(map(str, disk)))</span>
+
+<span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">disk</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">ch</span> <span class="o">!=</span> <span class="s2">&quot;.&quot;</span><span class="p">:</span>
+        <span class="n">total</span> <span class="o">+=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">ch</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">total</span><span class="p">)</span>
+</pre></div>
+</div>
+        <div class="w-1/3">
+          <textarea class="hidden" id="code" type="text">from collections import deque
+
+input = """\
+2333133121414131402
+"""
+
+# input = open("2024/day09/data.txt").read()
+
+disk = deque()
+for i, ch in enumerate(input.strip()):
+    if i % 2 == 0:
+        disk.extend([i // 2] * int(ch))
+    else:
+        disk.extend("." * int(ch))
+
+# 00...111...2...333.44.5555.6666.777.888899
+# print("".join(map(str, disk)))
+
+orig = disk.copy()
+orig.reverse()
+i = -1
+while True:
+    try:
+        first_open_idx = disk.index(".", 0, i)
+    except ValueError:
+        # "." not found
+        break
+
+    start_i = i
+    f_id = disk[i]
+    while disk[i - 1] == f_id:
+        i -= 1
+
+    block_size = abs(i - start_i - 1)
+
+    empty_ct = 1
+    while empty_ct < block_size:
+        if disk[first_open_idx + empty_ct] == ".":
+            empty_ct += 1
+        else:
+            try:
+                first_open_idx = disk.index(".", first_open_idx + 1, i)
+            except ValueError:
+                first_open_idx = None
+                break
+            empty_ct = 1
+
+    if first_open_idx is not None:
+        for ii in range(first_open_idx, first_open_idx + block_size):
+            disk[ii] = f_id
+
+        for ii in range(i, start_i + 1):
+            disk[ii] = "."
+
+    i -= 1
+    while disk[i] == "." or i == 0:
+        i -= 1
+
+    # print("".join(map(str, disk)))
+
+
+# 00992111777.44.333....5555.6666.....8888..
+# print("".join(map(str, disk)))
+
+total = 0
+for i, ch in enumerate(disk):
+    if ch != ".":
+        total += i * ch
+
+print(total)
+</textarea>
+          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            onclick="evaluatePython()">Run</button>
+          <br />
+          <br />
+          <div>Output:</div>
+          <textarea id="output" style="width: 100%;" rows="6" disabled></textarea>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const output = document.getElementById("output");
+      const code = document.getElementById("code");
+
+      function addToOutput(s) {
+        output.value += s + "\n";
+      }
+
+      output.value = "Initializing...\n";
+      // init Pyodide
+      async function main() {
+        let pyodide = await loadPyodide({
+          indexURL: "https://cdn.jsdelivr.net/pyodide/v0.18.1/full/",
+        });
+        output.value += "Ready!\n";
+        return pyodide;
+      }
+      let pyodideReadyPromise = main();
+
+      async function evaluatePython() {
+        let pyodide = await pyodideReadyPromise;
+        try {
+          await pyodide.loadPackagesFromImports(code.value);
+          pyodide.runPython(code.value);
+          addToOutput(pyodide.globals.get('return_value'));
+        } catch (err) {
+          addToOutput(err);
+        }
+      }
+    </script>
+  </body>
+</html>
