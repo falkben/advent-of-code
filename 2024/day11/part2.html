@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="../../output.css" rel="stylesheet" />
+    <link href="../../pygments.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.18.1/full/pyodide.js"></script>
+  </head>
+  <body>
+    <div class="p-2">
+      <div class="text-lg"><a href="../../">Index</a></div>
+      <h1 class="text-2xl font-bold underline">
+          Day 11
+      </h1>
+      <h2 class="text-xl italic">
+        part2
+      </h2>
+      <div>AoC <a href="https://adventofcode.com/2024/day/11" target="_blank">
+        link</a>
+      </div>
+      <div class="flex space-x-2 mt-3">
+        <div class="w-2/3 overflow-x-auto"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">cache</span>
+
+<span class="nb">input</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">125 17</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="c1"># input = open(&quot;2024/day11/data.txt&quot;).read()</span>
+
+<span class="n">BLINK_LIM</span> <span class="o">=</span> <span class="mi">75</span>
+
+
+<span class="nd">@cache</span>
+<span class="k">def</span> <span class="nf">blink_num</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">iter</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">iter</span> <span class="o">&gt;=</span> <span class="n">BLINK_LIM</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">1</span>
+
+    <span class="nb">iter</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="c1"># if 0 -&gt; 1</span>
+    <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">blink_num</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">iter</span><span class="p">)</span>
+
+    <span class="c1"># if even digits -&gt; 2 stones, split in half</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="n">len_val</span> <span class="o">:=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)))</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">new_val1</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)[</span><span class="mi">0</span> <span class="p">:</span> <span class="n">len_val</span> <span class="o">//</span> <span class="mi">2</span><span class="p">])</span>
+        <span class="n">new_val2</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)[</span><span class="n">len_val</span> <span class="o">//</span> <span class="mi">2</span> <span class="p">:])</span>
+        <span class="k">return</span> <span class="n">blink_num</span><span class="p">(</span><span class="n">new_val1</span><span class="p">,</span> <span class="nb">iter</span><span class="p">)</span> <span class="o">+</span> <span class="n">blink_num</span><span class="p">(</span><span class="n">new_val2</span><span class="p">,</span> <span class="nb">iter</span><span class="p">)</span>
+
+    <span class="c1"># else old number * 2024</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">blink_num</span><span class="p">(</span><span class="n">value</span> <span class="o">*</span> <span class="mi">2024</span><span class="p">,</span> <span class="nb">iter</span><span class="p">)</span>
+
+
+<span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">values</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">input</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()))</span>
+<span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
+    <span class="n">total</span> <span class="o">+=</span> <span class="n">blink_num</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">total</span><span class="p">)</span>
+</pre></div>
+</div>
+        <div class="w-1/3">
+          <textarea class="hidden" id="code" type="text">from functools import cache
+
+input = """\
+125 17
+"""
+
+# input = open("2024/day11/data.txt").read()
+
+BLINK_LIM = 75
+
+
+@cache
+def blink_num(value, iter):
+    if iter >= BLINK_LIM:
+        return 1
+
+    iter += 1
+
+    # if 0 -> 1
+    if value == 0:
+        return blink_num(1, iter)
+
+    # if even digits -> 2 stones, split in half
+    elif (len_val := len(str(value))) % 2 == 0:
+        new_val1 = int(str(value)[0 : len_val // 2])
+        new_val2 = int(str(value)[len_val // 2 :])
+        return blink_num(new_val1, iter) + blink_num(new_val2, iter)
+
+    # else old number * 2024
+    else:
+        return blink_num(value * 2024, iter)
+
+
+total = 0
+values = list(map(int, input.strip().split()))
+for value in values:
+    total += blink_num(value, 0)
+
+print(total)
+</textarea>
+          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            onclick="evaluatePython()">Run</button>
+          <br />
+          <br />
+          <div>Output:</div>
+          <textarea id="output" style="width: 100%;" rows="6" disabled></textarea>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const output = document.getElementById("output");
+      const code = document.getElementById("code");
+
+      function addToOutput(s) {
+        output.value += s + "\n";
+      }
+
+      output.value = "Initializing...\n";
+      // init Pyodide
+      async function main() {
+        let pyodide = await loadPyodide({
+          indexURL: "https://cdn.jsdelivr.net/pyodide/v0.18.1/full/",
+        });
+        output.value += "Ready!\n";
+        return pyodide;
+      }
+      let pyodideReadyPromise = main();
+
+      async function evaluatePython() {
+        let pyodide = await pyodideReadyPromise;
+        try {
+          await pyodide.loadPackagesFromImports(code.value);
+          pyodide.runPython(code.value);
+          addToOutput(pyodide.globals.get('return_value'));
+        } catch (err) {
+          addToOutput(err);
+        }
+      }
+    </script>
+  </body>
+</html>
